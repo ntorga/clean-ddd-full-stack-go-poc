@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strconv"
 
-	voHelper "github.com/ntorga/clean-ddd-go-taghs-poc-contacts/src/domain/valueObject/helper"
+	voHelper "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/valueObject/helper"
 )
 
 type ContactId uint64

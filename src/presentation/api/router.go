@@ -4,7 +4,7 @@ import (
 	_ "embed"
 
 	"github.com/labstack/echo/v4"
-	_ "github.com/ntorga/clean-ddd-go-taghs-poc-contacts/src/presentation/api/docs"
+	_ "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/docs"
 )
 
 type Router struct {
