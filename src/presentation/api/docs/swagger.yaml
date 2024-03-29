@@ -1,4 +1,16 @@
 basePath: /v1
+definitions:
+  entity.Contact:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      nickname:
+        type: string
+      phone:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -12,5 +24,22 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: Clean DDD TAGHS PoC Contacts
   version: 0.0.1
-paths: {}
+paths:
+  /v1/contact/:
+    get:
+      consumes:
+      - application/json
+      description: List contacts.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Contact'
+            type: array
+      summary: GetContacts
+      tags:
+      - contact
 swagger: "2.0"
