@@ -1,0 +1,20 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Clean Architecture \u0026 DDD with Go, Tailwind, Alpine.js, HTMX, and SQLite: A Proof of Concept",
+        "title": "Clean DDD TAGHS PoC Contacts",
+        "contact": {
+            "name": "Northon Torga",
+            "url": "https://ntorga.com/",
+            "email": "northontorga+github@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "0.0.1"
+    },
+    "host": "localhost:8080",
+    "basePath": "/v1",
+    "paths": {}
+}

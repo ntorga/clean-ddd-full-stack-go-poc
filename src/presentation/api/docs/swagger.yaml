@@ -1,0 +1,16 @@
+basePath: /v1
+host: localhost:8080
+info:
+  contact:
+    email: northontorga+github@gmail.com
+    name: Northon Torga
+    url: https://ntorga.com/
+  description: 'Clean Architecture & DDD with Go, Tailwind, Alpine.js, HTMX, and SQLite:
+    A Proof of Concept'
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Clean DDD TAGHS PoC Contacts
+  version: 0.0.1
+paths: {}
+swagger: "2.0"
