@@ -1,18 +1,36 @@
 package api
 
 import (
+	"github.com/labstack/echo/v4"
+	apiController "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/controller"
+	echoSwagger "github.com/swaggo/echo-swagger"
+
 	_ "embed"
 
-	"github.com/labstack/echo/v4"
 	_ "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/docs"
 )
 
 type Router struct {
+	baseRoute *echo.Group
 }
 
-func NewRouter() *Router {
-	return &Router{}
+func NewRouter(baseRoute *echo.Group) *Router {
+	return &Router{
+		baseRoute: baseRoute,
+	}
 }
 
-func (router *Router) RegisterRoutes(baseRoute *echo.Group) {
+func (router *Router) swaggerRoute() {
+	swaggerGroup := router.baseRoute.Group("/swagger")
+	swaggerGroup.GET("/*", echoSwagger.WrapHandler)
+}
+
+func (router *Router) contactRoutes() {
+	accountGroup := router.baseRoute.Group("/contact")
+	accountGroup.GET("/", apiController.GetContactsController)
+}
+
+func (router *Router) RegisterRoutes() {
+	router.swaggerRoute()
+	router.contactRoutes()
 }

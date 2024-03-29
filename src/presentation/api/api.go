@@ -28,8 +28,8 @@ func ApiInit() {
 	e.Use(apiMiddleware.PanicHandler)
 	e.Use(apiMiddleware.SetDefaultHeaders)
 
-	router := NewRouter()
-	router.RegisterRoutes(baseRoute)
+	router := NewRouter(baseRoute)
+	router.RegisterRoutes()
 
 	e.Start(":8080")
 }
