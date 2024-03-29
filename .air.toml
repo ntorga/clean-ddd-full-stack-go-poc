@@ -1,0 +1,15 @@
+# Config file for [Air](https://github.com/cosmtrek/air) in TOML format
+root = "."
+tmp_dir = "tmp"
+
+[build]
+bin = "bin/app"
+cmd = "CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./bin/app ./app.go"
+delay = 1000
+exclude_dir = [".git", "bin", "logs", "tmp", "vendor", "src/devUtils"]
+follow_symlink = false
+ignore = ["*_test.go", "testHelpers.go"]
+
+[[watcher]]
+build = true
+watch = "src/**/*.go"
