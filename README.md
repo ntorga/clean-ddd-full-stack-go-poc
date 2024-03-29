@@ -9,4 +9,6 @@ This project builds upon the principles demonstrated in the [PHP version](https:
 ## Objective
 The primary aim with this Go-based PoC is to explore and demonstrate how Clean Architecture and DDD principles can be effectively implemented in a Go project. This initiative extends beyond creating a JSON REST API and persisting data in a SQLite database. It ambitiously integrates a simple yet modern frontend designed with the increasingly popular Tailwind, Alpine.js, and HTMX technologies.
 
+For short, the stack used in this PoC will be referred to as **TAGHS** (Tailwind, Alpine.js, Go, HTMX and SQLite).
+
 This venture seeks not only to showcase the versatility and robustness of these web development tools but also to illuminate the adaptability of Clean Architecture and DDD principles across different programming languages and frameworks.
