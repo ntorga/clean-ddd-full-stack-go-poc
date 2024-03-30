@@ -2,6 +2,7 @@ package infra
 
 import (
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/dto"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/valueObject"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
 	dbModel "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db/model"
 )
@@ -47,4 +48,8 @@ func (repo *ContactCmdRepo) Update(dto dto.UpdateContact) error {
 		Model(&dbModel.Contact{}).
 		Where("id = ?", dto.Id.String()).
 		Updates(updateMap).Error
+}
+
+func (repo *ContactCmdRepo) Delete(id valueObject.ContactId) error {
+	return repo.persistentDbSvc.Handler.Delete(&dbModel.Contact{}, id.Uint()).Error
 }
