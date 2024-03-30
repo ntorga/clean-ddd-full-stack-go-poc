@@ -5,5 +5,5 @@ import (
 )
 
 type ContactQueryRepo interface {
-	Get() ([]entity.Contact, error)
+	Read() ([]entity.Contact, error)
 }

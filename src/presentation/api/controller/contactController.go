@@ -24,17 +24,17 @@ func NewContactController(
 	}
 }
 
-// GetContacts	 godoc
-// @Summary      GetContacts
+// ReadContacts	 godoc
+// @Summary      ReadContacts
 // @Description  List contacts.
 // @Tags         contact
 // @Accept       json
 // @Produce      json
 // @Success      200 {array} entity.Contact
 // @Router       /v1/contact/ [get]
-func (controller *ContactController) Get(c echo.Context) error {
+func (controller *ContactController) Read(c echo.Context) error {
 	contactsQueryRepo := infra.NewContactQueryRepo(controller.persistentDbSvc)
-	contactsList, err := useCase.GetContacts(contactsQueryRepo)
+	contactsList, err := useCase.ReadContacts(contactsQueryRepo)
 	if err != nil {
 		return apiHelper.ResponseWrapper(c, http.StatusInternalServerError, err.Error())
 	}
@@ -53,7 +53,7 @@ func (controller *ContactController) Get(c echo.Context) error {
 // @Router       /v1/contact/ [post]
 func (controller *ContactController) Create(c echo.Context) error {
 	requiredParams := []string{"name", "nickname", "phone"}
-	requestBody, _ := apiHelper.GetRequestBody(c)
+	requestBody, _ := apiHelper.ReadRequestBody(c)
 
 	apiHelper.CheckMissingParams(requestBody, requiredParams)
 

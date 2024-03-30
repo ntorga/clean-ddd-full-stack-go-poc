@@ -22,13 +22,13 @@ func NewContactController(
 	}
 }
 
-func (controller *ContactController) Get() *cobra.Command {
+func (controller *ContactController) Read() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "get",
-		Short: "GetContacts",
+		Use:   "read",
+		Short: "ReadContacts",
 		Run: func(cmd *cobra.Command, args []string) {
 			contactQueryRepo := infra.NewContactQueryRepo(controller.persistentDbSvc)
-			contactsList, err := useCase.GetContacts(contactQueryRepo)
+			contactsList, err := useCase.ReadContacts(contactQueryRepo)
 			if err != nil {
 				cliHelper.ResponseWrapper(false, err.Error())
 			}

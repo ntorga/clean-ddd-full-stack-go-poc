@@ -21,7 +21,7 @@ func NewContactQueryRepo(
 	}
 }
 
-func (repo *ContactQueryRepo) Get() ([]entity.Contact, error) {
+func (repo *ContactQueryRepo) Read() ([]entity.Contact, error) {
 	var entities []entity.Contact
 
 	var models []dbModel.Contact

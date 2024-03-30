@@ -35,7 +35,7 @@ func (router *Router) contactRoutes() {
 	accountGroup := router.baseRoute.Group("/v1/contact")
 	contactController := apiController.NewContactController(router.persistentDbSvc)
 
-	accountGroup.GET("/", contactController.Get)
+	accountGroup.GET("/", contactController.Read)
 	accountGroup.POST("/", contactController.Create)
 }
 

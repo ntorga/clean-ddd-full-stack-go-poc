@@ -36,7 +36,7 @@ const docTemplate = `{
                 "tags": [
                     "contact"
                 ],
-                "summary": "GetContacts",
+                "summary": "ReadContacts",
                 "responses": {
                     "200": {
                         "description": "OK",

@@ -26,7 +26,7 @@ func NewContactIdPanic(value interface{}) ContactId {
 	return id
 }
 
-func (id ContactId) Get() uint64 {
+func (id ContactId) Uint() uint64 {
 	return uint64(id)
 }
 

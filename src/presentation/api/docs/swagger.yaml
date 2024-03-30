@@ -48,7 +48,7 @@ paths:
             items:
               $ref: '#/definitions/entity.Contact'
             type: array
-      summary: GetContacts
+      summary: ReadContacts
       tags:
       - contact
     post:

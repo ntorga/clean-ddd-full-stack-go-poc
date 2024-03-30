@@ -5,8 +5,8 @@ import (
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/repository"
 )
 
-func GetContacts(
+func ReadContacts(
 	contactQueryRepo repository.ContactQueryRepo,
 ) ([]entity.Contact, error) {
-	return contactQueryRepo.Get()
+	return contactQueryRepo.Read()
 }
