@@ -2,10 +2,13 @@
     "cSpell.words": [
         "github",
         "godoc",
+        "gorm",
         "HTMX",
         "labstack",
         "Northon",
         "ntorga",
+        "primarykey",
+        "sqlite",
         "swaggo",
         "taghs"
     ]
