@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation"
+	cliController "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/cli/controller"
 	"github.com/spf13/cobra"
 )
 
@@ -12,6 +13,17 @@ type Router struct {
 
 func NewRouter() *Router {
 	return &Router{}
+}
+
+func (router Router) contactRoutes() {
+	var contactCmd = &cobra.Command{
+		Use:   "contact",
+		Short: "ContactManagement",
+	}
+
+	contactController := cliController.NewContactController()
+	contactCmd.AddCommand(contactController.GetContacts())
+	rootCmd.AddCommand(contactCmd)
 }
 
 func (router *Router) systemRoutes() {
@@ -36,5 +48,6 @@ func (router *Router) systemRoutes() {
 }
 
 func (router *Router) RegisterRoutes() {
+	router.contactRoutes()
 	router.systemRoutes()
 }
