@@ -31,6 +31,7 @@ func (router *Router) contactRoutes() {
 	contactCmd.AddCommand(contactController.Read())
 	contactCmd.AddCommand(contactController.Create())
 	contactCmd.AddCommand(contactController.Update())
+	contactCmd.AddCommand(contactController.Delete())
 	rootCmd.AddCommand(contactCmd)
 }
 

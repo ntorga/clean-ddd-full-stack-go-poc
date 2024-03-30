@@ -144,3 +144,33 @@ func (controller *ContactController) Update() *cobra.Command {
 	cmd.Flags().StringVarP(&phoneStr, "phone", "p", "", "Phone")
 	return cmd
 }
+
+func (controller *ContactController) Delete() *cobra.Command {
+	var idStr string
+
+	cmd := &cobra.Command{
+		Use:   "delete",
+		Short: "DeleteContact",
+		Run: func(cmd *cobra.Command, args []string) {
+			id := valueObject.NewContactIdPanic(idStr)
+
+			contactQueryRepo := infra.NewContactQueryRepo(controller.persistentDbSvc)
+			contactCmdRepo := infra.NewContactCmdRepo(controller.persistentDbSvc)
+
+			err := useCase.DeleteContact(
+				contactQueryRepo,
+				contactCmdRepo,
+				id,
+			)
+			if err != nil {
+				cliHelper.ResponseWrapper(false, err.Error())
+			}
+
+			cliHelper.ResponseWrapper(true, "ContactDeleted")
+		},
+	}
+
+	cmd.Flags().StringVarP(&idStr, "id", "i", "", "ContactId")
+	cmd.MarkFlagRequired("id")
+	return cmd
+}
