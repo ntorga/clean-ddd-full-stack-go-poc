@@ -78,3 +78,63 @@ func (controller *ContactController) Create(c echo.Context) error {
 
 	return apiHelper.ResponseWrapper(c, http.StatusCreated, "ContactCreated")
 }
+
+// UpdateContact godoc
+// @Summary      UpdateContact
+// @Description  Update a contact.
+// @Tags         contact
+// @Accept       json
+// @Produce      json
+// @Param        updateContactDto 	  body dto.UpdateContact  true  "UpdateContact (Only id is required.)"
+// @Success      200 {object} object{} "ContactUpdated"
+// @Router       /v1/contact/ [put]
+func (controller *ContactController) Update(c echo.Context) error {
+	requiredParams := []string{"id"}
+	requestBody, _ := apiHelper.ReadRequestBody(c)
+
+	apiHelper.CheckMissingParams(requestBody, requiredParams)
+
+	id := valueObject.NewContactIdPanic(requestBody["id"])
+
+	var namePtr *valueObject.PersonName
+	if requestBody["name"] != nil {
+		name := valueObject.NewPersonNamePanic(requestBody["name"].(string))
+		namePtr = &name
+	}
+
+	var nickNamePtr *valueObject.Nickname
+	if requestBody["nickname"] != nil {
+		nickname := valueObject.NewNicknamePanic(requestBody["nickname"].(string))
+		nickNamePtr = &nickname
+	}
+
+	var phonePtr *valueObject.PhoneNumber
+	if requestBody["phone"] != nil {
+		phone := valueObject.NewPhoneNumberPanic(requestBody["phone"].(string))
+		phonePtr = &phone
+	}
+
+	updateContactDto := dto.NewUpdateContact(
+		id,
+		namePtr,
+		nickNamePtr,
+		phonePtr,
+	)
+
+	persistentDbSvc := c.Get("persistentDbSvc").(*db.PersistentDatabaseService)
+	contactQueryRepo := infra.NewContactQueryRepo(persistentDbSvc)
+	contactCmdRepo := infra.NewContactCmdRepo(persistentDbSvc)
+
+	err := useCase.UpdateContact(
+		contactQueryRepo,
+		contactCmdRepo,
+		updateContactDto,
+	)
+	if err != nil {
+		return apiHelper.ResponseWrapper(
+			c, http.StatusInternalServerError, err.Error(),
+		)
+	}
+
+	return apiHelper.ResponseWrapper(c, http.StatusOK, "ContactUpdated")
+}

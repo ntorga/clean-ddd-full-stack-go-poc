@@ -9,6 +9,17 @@ definitions:
       phone:
         type: string
     type: object
+  dto.UpdateContact:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      nickname:
+        type: string
+      phone:
+        type: string
+    type: object
   entity.Contact:
     properties:
       id:
@@ -70,6 +81,27 @@ paths:
           schema:
             type: object
       summary: CreateNewContact
+      tags:
+      - contact
+    put:
+      consumes:
+      - application/json
+      description: Update a contact.
+      parameters:
+      - description: UpdateContact (Only id is required.)
+        in: body
+        name: updateContactDto
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateContact'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ContactUpdated
+          schema:
+            type: object
+      summary: UpdateContact
       tags:
       - contact
 swagger: "2.0"

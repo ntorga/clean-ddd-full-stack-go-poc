@@ -37,6 +37,7 @@ func (router *Router) contactRoutes() {
 
 	accountGroup.GET("/", contactController.Read)
 	accountGroup.POST("/", contactController.Create)
+	accountGroup.PUT("/", contactController.Update)
 }
 
 func (router *Router) RegisterRoutes() {

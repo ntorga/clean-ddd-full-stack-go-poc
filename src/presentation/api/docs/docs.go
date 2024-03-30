@@ -49,6 +49,38 @@ const docTemplate = `{
                     }
                 }
             },
+            "put": {
+                "description": "Update a contact.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contact"
+                ],
+                "summary": "UpdateContact",
+                "parameters": [
+                    {
+                        "description": "UpdateContact (Only id is required.)",
+                        "name": "updateContactDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateContact"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ContactUpdated",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create a new contact.",
                 "consumes": [
@@ -87,6 +119,23 @@ const docTemplate = `{
         "dto.CreateContact": {
             "type": "object",
             "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateContact": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
                 },
