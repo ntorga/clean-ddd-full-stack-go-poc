@@ -27,7 +27,9 @@ func (router *Router) swaggerRoute() {
 
 func (router *Router) contactRoutes() {
 	accountGroup := router.baseRoute.Group("/contact")
-	accountGroup.GET("/", apiController.GetContactsController)
+	contactController := apiController.NewContactController()
+
+	accountGroup.GET("/", contactController.GetContacts)
 }
 
 func (router *Router) RegisterRoutes() {

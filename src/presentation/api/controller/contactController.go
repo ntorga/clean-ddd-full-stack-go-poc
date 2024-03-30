@@ -9,6 +9,13 @@ import (
 	apiHelper "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/helper"
 )
 
+type ContactController struct {
+}
+
+func NewContactController() *ContactController {
+	return &ContactController{}
+}
+
 // GetContacts	 godoc
 // @Summary      GetContacts
 // @Description  List contacts.
@@ -17,7 +24,7 @@ import (
 // @Produce      json
 // @Success      200 {array} entity.Contact
 // @Router       /v1/contact/ [get]
-func GetContactsController(c echo.Context) error {
+func (*ContactController) GetContacts(c echo.Context) error {
 	contactsQueryRepo := infra.NewContactQueryRepo()
 	contactsList, err := useCase.GetContacts(contactsQueryRepo)
 	if err != nil {
