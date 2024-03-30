@@ -18,14 +18,15 @@ import (
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host		localhost:8080
-// @BasePath	/api/v1
+// @BasePath	/api
 func ApiInit(e *echo.Echo, persistentDbSvc *db.PersistentDatabaseService) {
-	basePath := "/api/v1"
+	basePath := "/api"
 	baseRoute := e.Group(basePath)
 
 	e.Pre(apiMiddleware.TrailingSlash(basePath))
 	e.Use(apiMiddleware.PanicHandler)
 	e.Use(apiMiddleware.SetDefaultHeaders)
+	e.Use(apiMiddleware.SetDatabaseServices(persistentDbSvc))
 
 	router := NewRouter(baseRoute, persistentDbSvc)
 	router.RegisterRoutes()
