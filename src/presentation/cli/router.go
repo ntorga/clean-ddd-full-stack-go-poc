@@ -3,25 +3,31 @@ package cli
 import (
 	"fmt"
 
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation"
 	cliController "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/cli/controller"
 	"github.com/spf13/cobra"
 )
 
 type Router struct {
+	persistentDbSvc *db.PersistentDatabaseService
 }
 
-func NewRouter() *Router {
-	return &Router{}
+func NewRouter(
+	persistentDbSvc *db.PersistentDatabaseService,
+) *Router {
+	return &Router{
+		persistentDbSvc: persistentDbSvc,
+	}
 }
 
-func (router Router) contactRoutes() {
+func (router *Router) contactRoutes() {
 	var contactCmd = &cobra.Command{
 		Use:   "contact",
 		Short: "ContactManagement",
 	}
 
-	contactController := cliController.NewContactController()
+	contactController := cliController.NewContactController(router.persistentDbSvc)
 	contactCmd.AddCommand(contactController.GetContacts())
 	rootCmd.AddCommand(contactCmd)
 }
@@ -39,7 +45,7 @@ func (router *Router) systemRoutes() {
 		Use:   "serve",
 		Short: "ServeHttpServer",
 		Run: func(cmd *cobra.Command, args []string) {
-			presentation.HttpServerInit()
+			presentation.HttpServerInit(router.persistentDbSvc)
 		},
 	}
 

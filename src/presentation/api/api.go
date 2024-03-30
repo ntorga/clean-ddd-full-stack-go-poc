@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
 	apiMiddleware "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/middleware"
 )
 
@@ -18,7 +19,7 @@ import (
 
 // @host		localhost:8080
 // @BasePath	/api/v1
-func ApiInit(e *echo.Echo) {
+func ApiInit(e *echo.Echo, persistentDbSvc *db.PersistentDatabaseService) {
 	basePath := "/api/v1"
 	baseRoute := e.Group(basePath)
 
@@ -26,6 +27,6 @@ func ApiInit(e *echo.Echo) {
 	e.Use(apiMiddleware.PanicHandler)
 	e.Use(apiMiddleware.SetDefaultHeaders)
 
-	router := NewRouter(baseRoute)
+	router := NewRouter(baseRoute, persistentDbSvc)
 	router.RegisterRoutes()
 }

@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
 	apiController "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/controller"
 	echoSwagger "github.com/swaggo/echo-swagger"
 
@@ -11,12 +12,17 @@ import (
 )
 
 type Router struct {
-	baseRoute *echo.Group
+	baseRoute       *echo.Group
+	persistentDbSvc *db.PersistentDatabaseService
 }
 
-func NewRouter(baseRoute *echo.Group) *Router {
+func NewRouter(
+	baseRoute *echo.Group,
+	persistentDbSvc *db.PersistentDatabaseService,
+) *Router {
 	return &Router{
-		baseRoute: baseRoute,
+		baseRoute:       baseRoute,
+		persistentDbSvc: persistentDbSvc,
 	}
 }
 
@@ -27,7 +33,7 @@ func (router *Router) swaggerRoute() {
 
 func (router *Router) contactRoutes() {
 	accountGroup := router.baseRoute.Group("/contact")
-	contactController := apiController.NewContactController()
+	contactController := apiController.NewContactController(router.persistentDbSvc)
 
 	accountGroup.GET("/", contactController.GetContacts)
 }
