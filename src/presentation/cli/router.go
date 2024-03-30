@@ -30,6 +30,7 @@ func (router *Router) contactRoutes() {
 	contactController := cliController.NewContactController(router.persistentDbSvc)
 	contactCmd.AddCommand(contactController.Read())
 	contactCmd.AddCommand(contactController.Create())
+	contactCmd.AddCommand(contactController.Update())
 	rootCmd.AddCommand(contactCmd)
 }
 
