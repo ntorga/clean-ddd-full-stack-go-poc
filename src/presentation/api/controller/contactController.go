@@ -4,7 +4,9 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/dto"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/useCase"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/valueObject"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
 	apiHelper "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/helper"
@@ -30,7 +32,7 @@ func NewContactController(
 // @Produce      json
 // @Success      200 {array} entity.Contact
 // @Router       /v1/contact/ [get]
-func (controller *ContactController) GetContacts(c echo.Context) error {
+func (controller *ContactController) Get(c echo.Context) error {
 	contactsQueryRepo := infra.NewContactQueryRepo(controller.persistentDbSvc)
 	contactsList, err := useCase.GetContacts(contactsQueryRepo)
 	if err != nil {
@@ -38,4 +40,41 @@ func (controller *ContactController) GetContacts(c echo.Context) error {
 	}
 
 	return apiHelper.ResponseWrapper(c, http.StatusOK, contactsList)
+}
+
+// AddContact	 godoc
+// @Summary      AddNewContact
+// @Description  Add a new contact.
+// @Tags         contact
+// @Accept       json
+// @Produce      json
+// @Param        addContactDto 	  body    dto.AddContact  true  "NewContact"
+// @Success      201 {object} object{} "ContactCreated"
+// @Router       /v1/contact/ [post]
+func (controller *ContactController) Add(c echo.Context) error {
+	requiredParams := []string{"name", "nickname", "phone"}
+	requestBody, _ := apiHelper.GetRequestBody(c)
+
+	apiHelper.CheckMissingParams(requestBody, requiredParams)
+
+	addContactDto := dto.NewAddContact(
+		valueObject.NewPersonNamePanic(requestBody["name"].(string)),
+		valueObject.NewNicknamePanic(requestBody["nickname"].(string)),
+		valueObject.NewPhoneNumberPanic(requestBody["phone"].(string)),
+	)
+
+	persistentDbSvc := c.Get("persistentDbSvc").(*db.PersistentDatabaseService)
+	contactQueryRepo := infra.NewContactQueryRepo(persistentDbSvc)
+	contactCmdRepo := infra.NewContactCmdRepo(persistentDbSvc)
+
+	err := useCase.AddContact(
+		contactQueryRepo,
+		contactCmdRepo,
+		addContactDto,
+	)
+	if err != nil {
+		return apiHelper.ResponseWrapper(c, http.StatusBadRequest, err.Error())
+	}
+
+	return apiHelper.ResponseWrapper(c, http.StatusCreated, "ContactCreated")
 }

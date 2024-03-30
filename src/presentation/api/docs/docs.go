@@ -48,10 +48,56 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Add a new contact.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contact"
+                ],
+                "summary": "AddNewContact",
+                "parameters": [
+                    {
+                        "description": "NewContact",
+                        "name": "addContactDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.AddContact"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ContactCreated",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
             }
         }
     },
     "definitions": {
+        "dto.AddContact": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
         "entity.Contact": {
             "type": "object",
             "properties": {
@@ -76,7 +122,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "0.0.1",
 	Host:             "localhost:8080",
-	BasePath:         "/api/v1",
+	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "Clean DDD TAGHS PoC Contacts",
 	Description:      "Clean Architecture & DDD with Go, Tailwind, Alpine.js, HTMX, and SQLite: A Proof of Concept",

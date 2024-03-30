@@ -1,5 +1,14 @@
-basePath: /api/v1
+basePath: /api
 definitions:
+  dto.AddContact:
+    properties:
+      name:
+        type: string
+      nickname:
+        type: string
+      phone:
+        type: string
+    type: object
   entity.Contact:
     properties:
       id:
@@ -40,6 +49,27 @@ paths:
               $ref: '#/definitions/entity.Contact'
             type: array
       summary: GetContacts
+      tags:
+      - contact
+    post:
+      consumes:
+      - application/json
+      description: Add a new contact.
+      parameters:
+      - description: NewContact
+        in: body
+        name: addContactDto
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AddContact'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ContactCreated
+          schema:
+            type: object
+      summary: AddNewContact
       tags:
       - contact
 swagger: "2.0"

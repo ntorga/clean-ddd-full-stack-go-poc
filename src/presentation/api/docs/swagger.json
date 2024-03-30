@@ -15,7 +15,7 @@
         "version": "0.0.1"
     },
     "host": "localhost:8080",
-    "basePath": "/api/v1",
+    "basePath": "/api",
     "paths": {
         "/v1/contact/": {
             "get": {
@@ -41,10 +41,56 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Add a new contact.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contact"
+                ],
+                "summary": "AddNewContact",
+                "parameters": [
+                    {
+                        "description": "NewContact",
+                        "name": "addContactDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.AddContact"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ContactCreated",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
             }
         }
     },
     "definitions": {
+        "dto.AddContact": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
         "entity.Contact": {
             "type": "object",
             "properties": {

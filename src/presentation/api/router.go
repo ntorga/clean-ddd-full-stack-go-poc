@@ -32,10 +32,11 @@ func (router *Router) swaggerRoute() {
 }
 
 func (router *Router) contactRoutes() {
-	accountGroup := router.baseRoute.Group("/contact")
+	accountGroup := router.baseRoute.Group("/v1/contact")
 	contactController := apiController.NewContactController(router.persistentDbSvc)
 
-	accountGroup.GET("/", contactController.GetContacts)
+	accountGroup.GET("/", contactController.Get)
+	accountGroup.POST("/", contactController.Add)
 }
 
 func (router *Router) RegisterRoutes() {
