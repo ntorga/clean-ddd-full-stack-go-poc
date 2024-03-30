@@ -76,7 +76,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "0.0.1",
 	Host:             "localhost:8080",
-	BasePath:         "/v1",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Clean DDD TAGHS PoC Contacts",
 	Description:      "Clean Architecture & DDD with Go, Tailwind, Alpine.js, HTMX, and SQLite: A Proof of Concept",

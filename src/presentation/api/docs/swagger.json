@@ -15,7 +15,7 @@
         "version": "0.0.1"
     },
     "host": "localhost:8080",
-    "basePath": "/v1",
+    "basePath": "/api/v1",
     "paths": {
         "/v1/contact/": {
             "get": {

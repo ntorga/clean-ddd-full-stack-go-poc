@@ -1,4 +1,4 @@
-basePath: /v1
+basePath: /api/v1
 definitions:
   entity.Contact:
     properties:

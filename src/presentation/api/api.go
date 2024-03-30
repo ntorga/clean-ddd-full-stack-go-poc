@@ -17,11 +17,9 @@ import (
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host		localhost:8080
-// @BasePath	/v1
-func ApiInit() {
-	e := echo.New()
-
-	basePath := "/v1"
+// @BasePath	/api/v1
+func ApiInit(e *echo.Echo) {
+	basePath := "/api/v1"
 	baseRoute := e.Group(basePath)
 
 	e.Pre(apiMiddleware.TrailingSlash(basePath))
@@ -30,6 +28,4 @@ func ApiInit() {
 
 	router := NewRouter(baseRoute)
 	router.RegisterRoutes()
-
-	e.Start(":8080")
 }
