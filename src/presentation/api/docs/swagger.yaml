@@ -1,6 +1,6 @@
 basePath: /api
 definitions:
-  dto.AddContact:
+  dto.CreateContact:
     properties:
       name:
         type: string
@@ -54,14 +54,14 @@ paths:
     post:
       consumes:
       - application/json
-      description: Add a new contact.
+      description: Create a new contact.
       parameters:
       - description: NewContact
         in: body
-        name: addContactDto
+        name: createContactDto
         required: true
         schema:
-          $ref: '#/definitions/dto.AddContact'
+          $ref: '#/definitions/dto.CreateContact'
       produces:
       - application/json
       responses:
@@ -69,7 +69,7 @@ paths:
           description: ContactCreated
           schema:
             type: object
-      summary: AddNewContact
+      summary: CreateNewContact
       tags:
       - contact
 swagger: "2.0"

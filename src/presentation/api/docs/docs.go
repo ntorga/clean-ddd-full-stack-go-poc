@@ -50,7 +50,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Add a new contact.",
+                "description": "Create a new contact.",
                 "consumes": [
                     "application/json"
                 ],
@@ -60,15 +60,15 @@ const docTemplate = `{
                 "tags": [
                     "contact"
                 ],
-                "summary": "AddNewContact",
+                "summary": "CreateNewContact",
                 "parameters": [
                     {
                         "description": "NewContact",
-                        "name": "addContactDto",
+                        "name": "createContactDto",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.AddContact"
+                            "$ref": "#/definitions/dto.CreateContact"
                         }
                     }
                 ],
@@ -84,7 +84,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.AddContact": {
+        "dto.CreateContact": {
             "type": "object",
             "properties": {
                 "name": {

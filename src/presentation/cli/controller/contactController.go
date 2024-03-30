@@ -40,20 +40,20 @@ func (controller *ContactController) Get() *cobra.Command {
 	return cmd
 }
 
-func (controller *ContactController) Add() *cobra.Command {
+func (controller *ContactController) Create() *cobra.Command {
 	var nameStr string
 	var nicknameStr string
 	var phoneStr string
 
 	cmd := &cobra.Command{
-		Use:   "add",
-		Short: "AddNewContact",
+		Use:   "create",
+		Short: "CreateNewContact",
 		Run: func(cmd *cobra.Command, args []string) {
 			name := valueObject.NewPersonNamePanic(nameStr)
 			nickname := valueObject.NewNicknamePanic(nicknameStr)
 			phone := valueObject.NewPhoneNumberPanic(phoneStr)
 
-			addContactDto := dto.NewAddContact(
+			createContactDto := dto.NewCreateContact(
 				name,
 				nickname,
 				phone,
@@ -62,16 +62,16 @@ func (controller *ContactController) Add() *cobra.Command {
 			contactQueryRepo := infra.NewContactQueryRepo(controller.persistentDbSvc)
 			contactCmdRepo := infra.NewContactCmdRepo(controller.persistentDbSvc)
 
-			err := useCase.AddContact(
+			err := useCase.CreateContact(
 				contactQueryRepo,
 				contactCmdRepo,
-				addContactDto,
+				createContactDto,
 			)
 			if err != nil {
 				cliHelper.ResponseWrapper(false, err.Error())
 			}
 
-			cliHelper.ResponseWrapper(true, "ContactAdded")
+			cliHelper.ResponseWrapper(true, "ContactCreated")
 		},
 	}
 

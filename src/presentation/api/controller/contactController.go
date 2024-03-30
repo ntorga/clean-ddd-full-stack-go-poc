@@ -42,22 +42,22 @@ func (controller *ContactController) Get(c echo.Context) error {
 	return apiHelper.ResponseWrapper(c, http.StatusOK, contactsList)
 }
 
-// AddContact	 godoc
-// @Summary      AddNewContact
-// @Description  Add a new contact.
+// CreateContact	 godoc
+// @Summary      CreateNewContact
+// @Description  Create a new contact.
 // @Tags         contact
 // @Accept       json
 // @Produce      json
-// @Param        addContactDto 	  body    dto.AddContact  true  "NewContact"
+// @Param        createContactDto 	  body    dto.CreateContact  true  "NewContact"
 // @Success      201 {object} object{} "ContactCreated"
 // @Router       /v1/contact/ [post]
-func (controller *ContactController) Add(c echo.Context) error {
+func (controller *ContactController) Create(c echo.Context) error {
 	requiredParams := []string{"name", "nickname", "phone"}
 	requestBody, _ := apiHelper.GetRequestBody(c)
 
 	apiHelper.CheckMissingParams(requestBody, requiredParams)
 
-	addContactDto := dto.NewAddContact(
+	createContactDto := dto.NewCreateContact(
 		valueObject.NewPersonNamePanic(requestBody["name"].(string)),
 		valueObject.NewNicknamePanic(requestBody["nickname"].(string)),
 		valueObject.NewPhoneNumberPanic(requestBody["phone"].(string)),
@@ -67,10 +67,10 @@ func (controller *ContactController) Add(c echo.Context) error {
 	contactQueryRepo := infra.NewContactQueryRepo(persistentDbSvc)
 	contactCmdRepo := infra.NewContactCmdRepo(persistentDbSvc)
 
-	err := useCase.AddContact(
+	err := useCase.CreateContact(
 		contactQueryRepo,
 		contactCmdRepo,
-		addContactDto,
+		createContactDto,
 	)
 	if err != nil {
 		return apiHelper.ResponseWrapper(c, http.StatusBadRequest, err.Error())

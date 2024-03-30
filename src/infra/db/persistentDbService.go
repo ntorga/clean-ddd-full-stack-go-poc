@@ -98,7 +98,7 @@ func (dbSvc *PersistentDatabaseService) dbMigrate() error {
 
 	err = dbSvc.seedDatabase(modelsWithInitialEntries...)
 	if err != nil {
-		return errors.New("AddDefaultDatabaseEntriesError")
+		return errors.New("CreateDefaultDatabaseEntriesError")
 	}
 
 	return nil

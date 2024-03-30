@@ -8,18 +8,18 @@ import (
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/repository"
 )
 
-func AddContact(
+func CreateContact(
 	contactQueryRepo repository.ContactQueryRepo,
 	contactCmdRepo repository.ContactCmdRepo,
-	addContact dto.AddContact,
+	createContact dto.CreateContact,
 ) error {
-	err := contactCmdRepo.Add(addContact)
+	err := contactCmdRepo.Create(createContact)
 	if err != nil {
-		log.Printf("AddContactError: %s", err)
-		return errors.New("AddContactInfraError")
+		log.Printf("CreateContactError: %s", err)
+		return errors.New("CreateContactInfraError")
 	}
 
-	log.Printf("Contact '%v' added.", addContact.Name.String())
+	log.Printf("Contact '%v' created.", createContact.Name.String())
 
 	return nil
 }

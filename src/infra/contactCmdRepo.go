@@ -18,7 +18,7 @@ func NewContactCmdRepo(
 	}
 }
 
-func (repo *ContactCmdRepo) Add(dto dto.AddContact) error {
+func (repo *ContactCmdRepo) Create(dto dto.CreateContact) error {
 	model := dbModel.Contact{
 		Name:     dto.Name.String(),
 		Nickname: dto.Nickname.String(),
