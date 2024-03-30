@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
+	cliInit "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/cli/init"
 	cliMiddleware "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/cli/middleware"
 	"github.com/spf13/cobra"
 )
@@ -29,7 +30,9 @@ func RunRootCmd() {
 func CliInit() {
 	defer cliMiddleware.PanicHandler()
 
-	router := NewRouter()
+	persistentDbSvc := cliInit.PersistentDatabaseService()
+
+	router := NewRouter(persistentDbSvc)
 	router.RegisterRoutes()
 
 	RunRootCmd()
