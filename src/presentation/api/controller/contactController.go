@@ -138,3 +138,31 @@ func (controller *ContactController) Update(c echo.Context) error {
 
 	return apiHelper.ResponseWrapper(c, http.StatusOK, "ContactUpdated")
 }
+
+// DeleteContact godoc
+// @Summary      DeleteContact
+// @Description  Delete a contact.
+// @Tags         contact
+// @Accept       json
+// @Produce      json
+// @Param        id 	  path   string  true  "ContactId"
+// @Success      200 {object} object{} "ContactDeleted"
+// @Router       /v1/contact/{id}/ [delete]
+func (controller *ContactController) Delete(c echo.Context) error {
+	id := valueObject.NewContactIdPanic(c.Param("id"))
+
+	persistentDbSvc := c.Get("persistentDbSvc").(*db.PersistentDatabaseService)
+	contactQueryRepo := infra.NewContactQueryRepo(persistentDbSvc)
+	contactCmdRepo := infra.NewContactCmdRepo(persistentDbSvc)
+
+	err := useCase.DeleteContact(
+		contactQueryRepo,
+		contactCmdRepo,
+		id,
+	)
+	if err != nil {
+		return apiHelper.ResponseWrapper(c, http.StatusBadRequest, err.Error())
+	}
+
+	return apiHelper.ResponseWrapper(c, http.StatusOK, "ContactDeleted")
+}

@@ -113,6 +113,38 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/contact/{id}/": {
+            "delete": {
+                "description": "Delete a contact.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contact"
+                ],
+                "summary": "DeleteContact",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ContactId",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ContactDeleted",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

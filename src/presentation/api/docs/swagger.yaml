@@ -104,4 +104,25 @@ paths:
       summary: UpdateContact
       tags:
       - contact
+  /v1/contact/{id}/:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a contact.
+      parameters:
+      - description: ContactId
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ContactDeleted
+          schema:
+            type: object
+      summary: DeleteContact
+      tags:
+      - contact
 swagger: "2.0"
