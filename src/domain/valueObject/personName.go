@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-const personNameRegex string = `^\p{L}{2}[\p{L} ]{0,100}$`
+const personNameRegex string = `^\p{L}[\p{L}\'\ \-]{2,100}$`
 
 type PersonName string
 
