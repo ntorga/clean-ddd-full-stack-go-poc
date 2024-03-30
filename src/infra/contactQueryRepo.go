@@ -29,7 +29,7 @@ func (repo *ContactQueryRepo) Read() ([]entity.Contact, error) {
 		Model(&dbModel.Contact{}).
 		Find(&models).Error
 	if err != nil {
-		return entities, errors.New("GetDatabaseEntriesError")
+		return entities, errors.New("ReadDatabaseEntriesError")
 	}
 
 	for _, model := range models {
