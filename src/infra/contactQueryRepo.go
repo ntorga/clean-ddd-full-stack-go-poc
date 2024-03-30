@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/entity"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/valueObject"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
 	dbModel "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db/model"
 )
@@ -43,4 +44,24 @@ func (repo *ContactQueryRepo) Read() ([]entity.Contact, error) {
 	}
 
 	return entities, nil
+}
+
+func (repo *ContactQueryRepo) ReadById(id valueObject.ContactId) (entity.Contact, error) {
+	var entity entity.Contact
+
+	var model dbModel.Contact
+	err := repo.persistentDbSvc.Handler.
+		Model(model).
+		Where("id = ?", id.Uint()).
+		First(&model).Error
+	if err != nil {
+		return entity, errors.New("ReadDatabaseEntryError")
+	}
+
+	entity, err = model.ToEntity()
+	if err != nil {
+		return entity, errors.New("ModelToEntityError")
+	}
+
+	return entity, nil
 }

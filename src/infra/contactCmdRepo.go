@@ -27,3 +27,24 @@ func (repo *ContactCmdRepo) Create(dto dto.CreateContact) error {
 
 	return repo.persistentDbSvc.Handler.Create(&model).Error
 }
+
+func (repo *ContactCmdRepo) Update(dto dto.UpdateContact) error {
+	updateMap := map[string]interface{}{}
+
+	if dto.Name != nil {
+		updateMap["name"] = dto.Name.String()
+	}
+
+	if dto.Nickname != nil {
+		updateMap["nickname"] = dto.Nickname.String()
+	}
+
+	if dto.Phone != nil {
+		updateMap["phone"] = dto.Phone.String()
+	}
+
+	return repo.persistentDbSvc.Handler.
+		Model(&dbModel.Contact{}).
+		Where("id = ?", dto.Id.String()).
+		Updates(updateMap).Error
+}
