@@ -68,7 +68,7 @@ func (liaison *ContactLiaison) Create(input map[string]interface{}) LiaisonOutpu
 		return NewLiaisonOutput(InfraError, err.Error())
 	}
 
-	return NewLiaisonOutput(Success, "ContactCreated")
+	return NewLiaisonOutput(Created, "ContactCreated")
 }
 
 func (liaison *ContactLiaison) Update(input map[string]interface{}) LiaisonOutput {
