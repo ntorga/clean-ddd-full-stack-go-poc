@@ -4,30 +4,41 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/liaison"
+	"golang.org/x/term"
 )
 
-type formattedResponse struct {
-	Status bool        `json:"status"`
-	Body   interface{} `json:"body"`
-}
-
-func ResponseWrapper(
-	responseStatus bool,
-	responseBody interface{},
-) {
-	formattedResponse := formattedResponse{
-		Status: responseStatus,
-		Body:   responseBody,
+func ResponseWrapper(liaisonOutput liaison.LiaisonOutput) {
+	exitCode := 0
+	switch liaisonOutput.Status {
+	case liaison.MultiStatus:
+		exitCode = 1
+	case liaison.UserError:
+		exitCode = 1
+	case liaison.InfraError:
+		exitCode = 1
 	}
 
-	jsonResponse, err := json.MarshalIndent(formattedResponse, "", "  ")
+	stdoutFileDescriptor := int(os.Stdout.Fd())
+	isNonInteractive := !term.IsTerminal(stdoutFileDescriptor)
+	if isNonInteractive {
+		standardJsonBytes, err := json.Marshal(liaisonOutput)
+		if err != nil {
+			fmt.Println("ResponseEncodingError")
+			os.Exit(1)
+		}
+
+		fmt.Println(string(standardJsonBytes))
+		os.Exit(exitCode)
+	}
+
+	prettyJsonBytes, err := json.MarshalIndent(liaisonOutput, "", "  ")
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("PrettyResponseEncodingError")
 		os.Exit(1)
 	}
 
-	fmt.Println(string(jsonResponse))
-	if !responseStatus {
-		os.Exit(1)
-	}
+	fmt.Println(string(prettyJsonBytes))
+	os.Exit(exitCode)
 }
