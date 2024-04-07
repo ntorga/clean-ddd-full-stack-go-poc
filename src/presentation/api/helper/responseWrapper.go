@@ -1,7 +1,10 @@
 package apiHelper
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo/v4"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/liaison"
 )
 
 type formattedResponse struct {
@@ -11,12 +14,23 @@ type formattedResponse struct {
 
 func ResponseWrapper(
 	c echo.Context,
-	responseStatus int,
-	responseBody interface{},
+	liaisonOutput liaison.LiaisonOutput,
 ) error {
+	responseStatus := http.StatusOK
+	switch liaisonOutput.Status {
+	case liaison.Created:
+		responseStatus = http.StatusCreated
+	case liaison.MultiStatus:
+		responseStatus = http.StatusMultiStatus
+	case liaison.UserError:
+		responseStatus = http.StatusBadRequest
+	case liaison.InfraError:
+		responseStatus = http.StatusInternalServerError
+	}
+
 	formattedResponse := formattedResponse{
 		Status: responseStatus,
-		Body:   responseBody,
+		Body:   liaisonOutput.Body,
 	}
 	return c.JSON(responseStatus, formattedResponse)
 }
