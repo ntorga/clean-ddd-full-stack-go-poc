@@ -19,14 +19,6 @@ func NewPersonName(value string) (PersonName, error) {
 	return PersonName(value), nil
 }
 
-func NewPersonNamePanic(value string) PersonName {
-	name, err := NewPersonName(value)
-	if err != nil {
-		panic(err)
-	}
-	return name
-}
-
 func (name PersonName) String() string {
 	return string(name)
 }

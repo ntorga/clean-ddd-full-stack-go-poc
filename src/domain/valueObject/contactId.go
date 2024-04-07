@@ -18,14 +18,6 @@ func NewContactId(value interface{}) (ContactId, error) {
 	return ContactId(id), nil
 }
 
-func NewContactIdPanic(value interface{}) ContactId {
-	id, err := NewContactId(value)
-	if err != nil {
-		panic(err)
-	}
-	return id
-}
-
 func (id ContactId) Uint() uint64 {
 	return uint64(id)
 }

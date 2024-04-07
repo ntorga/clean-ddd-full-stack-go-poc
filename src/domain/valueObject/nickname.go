@@ -19,14 +19,6 @@ func NewNickname(value string) (Nickname, error) {
 	return Nickname(value), nil
 }
 
-func NewNicknamePanic(value string) Nickname {
-	name, err := NewNickname(value)
-	if err != nil {
-		panic(err)
-	}
-	return name
-}
-
 func (name Nickname) String() string {
 	return string(name)
 }

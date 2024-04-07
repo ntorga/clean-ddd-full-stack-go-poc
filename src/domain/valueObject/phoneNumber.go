@@ -20,14 +20,6 @@ func NewPhoneNumber(value string) (PhoneNumber, error) {
 	return PhoneNumber(value), nil
 }
 
-func NewPhoneNumberPanic(value string) PhoneNumber {
-	number, err := NewPhoneNumber(value)
-	if err != nil {
-		panic(err)
-	}
-	return number
-}
-
 func (number PhoneNumber) String() string {
 	return string(number)
 }
