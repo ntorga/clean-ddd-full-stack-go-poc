@@ -3,7 +3,7 @@ package ui
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/ui/pages"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/ui/presenter"
 )
 
 type Router struct {
@@ -24,7 +24,7 @@ func NewRouter(
 func (router *Router) contactRoutes() {
 	contactGroup := router.baseRoute.Group("/contact")
 
-	contactPresenter := pages.NewContactPresenter(router.persistentDbSvc)
+	contactPresenter := presenter.NewContactPresenter(router.persistentDbSvc)
 	contactGroup.GET("/", contactPresenter.Handler)
 }
 
