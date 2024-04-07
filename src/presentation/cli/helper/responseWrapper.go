@@ -63,4 +63,5 @@ func ResponseWrapper(liaisonOutput liaison.LiaisonOutput) {
 		fmt.Println("SyntaxHighlightingFormatError")
 		os.Exit(1)
 	}
+	fmt.Println()
 }
