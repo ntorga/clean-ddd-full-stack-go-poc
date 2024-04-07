@@ -3,59 +3,108 @@ package presenter
 import (
 	"github.com/labstack/echo/v4"
 
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/useCase"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/entity"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/ui/helper"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/ui/layout"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/liaison"
 )
 
 type ContactPresenter struct {
-	persistentDbSvc *db.PersistentDatabaseService
+	contactLiaison *liaison.ContactLiaison
 }
 
 func NewContactPresenter(
 	persistentDbSvc *db.PersistentDatabaseService,
 ) *ContactPresenter {
 	return &ContactPresenter{
-		persistentDbSvc: persistentDbSvc,
+		contactLiaison: liaison.NewContactLiaison(persistentDbSvc),
 	}
 }
 
 func (presenter *ContactPresenter) Handler(
 	c echo.Context,
 ) error {
-	contactsQueryRepo := infra.NewContactQueryRepo(presenter.persistentDbSvc)
-	contactsList, err := useCase.ReadContacts(contactsQueryRepo)
-	if err != nil {
+	responseOutput := presenter.contactLiaison.Read()
+	if responseOutput.Status != liaison.Success {
+		// TODO: Maybe return an error message?
+		return nil
+	}
+	contactEntities, assertOk := responseOutput.Body.([]entity.Contact)
+	if !assertOk {
+		// TODO: Maybe return an error message?
 		return nil
 	}
 
-	return uiHelper.Render(c, ContactPage(contactsList))
+	return uiHelper.Render(c, ContactIndex(contactEntities))
 }
 
-templ ContactPage(contacts []entity.Contact) {
-	<div>
-		<h1>Contacts</h1>
-		<table>
-			<thead>
+templ ContactIndex(contacts []entity.Contact) {
+	@uiLayout.DefaultLayout() {
+		<div>
+			<div class="row" style="margin-top: 40px">
+				<div class="col-6 p-card">
+					<div class="contacts-table">
+						@ContactsTable(contacts)
+					</div>
+				</div>
+				<div class="col-6 p-card">
+					@CreateContactForm(".contacts-table")
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ ContactsTable(contacts []entity.Contact) {
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Nickname</th>
+				<th>Phone</th>
+			</tr>
+		</thead>
+		<tbody>
+			for _, contact := range contacts {
 				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>Nickname</th>
-					<th>Phone</th>
+					<td>{ contact.Id.String() }</td>
+					<td>{ contact.Name.String() }</td>
+					<td>{ contact.Nickname.String() }</td>
+					<td>{ contact.Phone.String() }</td>
 				</tr>
-			</thead>
-			<tbody>
-				for _, contact := range contacts {
-					<tr>
-						<td>{ contact.Id.String() }</td>
-						<td>{ contact.Name.String() }</td>
-						<td>{ contact.Nickname.String() }</td>
-						<td>{ contact.Phone.String() }</td>
-					</tr>
-				}
-			</tbody>
-		</table>
-	</div>
+			}
+		</tbody>
+	</table>
+}
+
+script CreateContactFormSubmit(targetElement string) {
+	up.log.enable();
+	up.on('up:form:submit', function(event, form) {
+		if (up.Response.prototype.ok) {
+			up.util.timer(1000, function() {
+				up.render({ target: targetElement, url: '/contact/' });
+			});
+		}
+	});
+}
+
+templ CreateContactForm(targetElement string) {
+	@CreateContactFormSubmit(targetElement)
+	<form method="post" action="/api/v1/contact/" up-submit up-target=":none">
+		<div class="form-group">
+			<label for="name">Name</label>
+			<input type="text" class="form-control" id="name" name="name" placeholder="Enter name"/>
+		</div>
+		<div class="form-group">
+			<label for="nickname">Nickname</label>
+			<input type="text" class="form-control" id="nickname" name="nickname" placeholder="Enter nickname"/>
+		</div>
+		<div class="form-group">
+			<label for="phone">Phone</label>
+			<input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone"/>
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
 }
