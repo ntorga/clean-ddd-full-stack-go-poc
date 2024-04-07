@@ -1,0 +1,27 @@
+package uiLayout
+
+templ DefaultLayout() {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>Contacts</title>
+			<link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-4.9.1.min.css"/>
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.css"/>
+			<script src="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.js"></script>
+		</head>
+		<body>
+			<header id="navigation" class="p-navigation--sliding is-dark">
+				<div class="p-navigation__row--25-75">
+					<div class="p-navigation__banner">
+						<div class="p-navigation__tagged-logo">
+							<a class="p-navigation__link" href="#">
+								<span class="p-navigation__logo-title">Contacts PoC</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</header>
+			{ children... }
+		</body>
+	</html>
+}
