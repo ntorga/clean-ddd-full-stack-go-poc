@@ -3,11 +3,12 @@ package liaison
 type StatusEnum string
 
 const (
-	Success     StatusEnum = "success"
-	Created     StatusEnum = "created"
-	MultiStatus StatusEnum = "multiStatus"
-	UserError   StatusEnum = "userError"
-	InfraError  StatusEnum = "infraError"
+	Success      StatusEnum = "success"
+	Created      StatusEnum = "created"
+	MultiStatus  StatusEnum = "multiStatus"
+	UserError    StatusEnum = "userError"
+	Unauthorized StatusEnum = "unauthorized"
+	InfraError   StatusEnum = "infraError"
 )
 
 type LiaisonOutput struct {
