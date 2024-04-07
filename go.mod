@@ -4,11 +4,13 @@ go 1.22
 
 require (
 	github.com/a-h/templ v0.2.648
+	github.com/alecthomas/chroma v0.10.0
 	github.com/glebarez/sqlite v1.11.0
 	github.com/labstack/echo/v4 v4.11.3
 	github.com/spf13/cobra v1.8.0
 	github.com/swaggo/echo-swagger v1.4.1
 	github.com/swaggo/swag v1.16.2
+	golang.org/x/term v0.15.0
 	gorm.io/gorm v1.25.9
 )
 
@@ -16,6 +18,7 @@ require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
+	github.com/dlclark/regexp2 v1.4.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/glebarez/go-sqlite v1.21.2 // indirect

@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/alecthomas/chroma/formatters"
+	"github.com/alecthomas/chroma/lexers"
+	"github.com/alecthomas/chroma/styles"
 	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/liaison"
 	"golang.org/x/term"
 )
@@ -21,8 +24,8 @@ func ResponseWrapper(liaisonOutput liaison.LiaisonOutput) {
 	}
 
 	stdoutFileDescriptor := int(os.Stdout.Fd())
-	isNonInteractive := !term.IsTerminal(stdoutFileDescriptor)
-	if isNonInteractive {
+	isNonInteractiveSession := !term.IsTerminal(stdoutFileDescriptor)
+	if isNonInteractiveSession {
 		standardJsonBytes, err := json.Marshal(liaisonOutput)
 		if err != nil {
 			fmt.Println("ResponseEncodingError")
@@ -39,6 +42,25 @@ func ResponseWrapper(liaisonOutput liaison.LiaisonOutput) {
 		os.Exit(1)
 	}
 
-	fmt.Println(string(prettyJsonBytes))
-	os.Exit(exitCode)
+	syntaxHighlightingLexer := lexers.Get("json")
+	if syntaxHighlightingLexer == nil {
+		syntaxHighlightingLexer = lexers.Fallback
+	}
+
+	shIterator, err := syntaxHighlightingLexer.Tokenise(nil, string(prettyJsonBytes))
+	if err != nil {
+		fmt.Println("SyntaxHighlightingTokenizingError")
+		os.Exit(1)
+	}
+
+	shFormatter := formatters.Get("terminal256")
+	if shFormatter == nil {
+		shFormatter = formatters.Fallback
+	}
+
+	err = shFormatter.Format(os.Stdout, styles.Vulcan, shIterator)
+	if err != nil {
+		fmt.Println("SyntaxHighlightingFormatError")
+		os.Exit(1)
+	}
 }

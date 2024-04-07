@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "alecthomas",
         "github",
         "godoc",
         "gorm",
@@ -11,6 +12,7 @@
         "sqlite",
         "swaggo",
         "taghs",
-        "templ"
+        "templ",
+        "Tokenise"
     ]
 }
