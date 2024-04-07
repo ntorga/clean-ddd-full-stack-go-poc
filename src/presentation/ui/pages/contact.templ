@@ -1,0 +1,61 @@
+package pages
+
+import (
+	"github.com/labstack/echo/v4"
+
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/useCase"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/entity"
+	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/ui/helper"
+)
+
+type ContactPresenter struct {
+	persistentDbSvc *db.PersistentDatabaseService
+}
+
+func NewContactPresenter(
+	persistentDbSvc *db.PersistentDatabaseService,
+) *ContactPresenter {
+	return &ContactPresenter{
+		persistentDbSvc: persistentDbSvc,
+	}
+}
+
+func (presenter *ContactPresenter) Handler(
+	c echo.Context,
+) error {
+	contactsQueryRepo := infra.NewContactQueryRepo(presenter.persistentDbSvc)
+	contactsList, err := useCase.ReadContacts(contactsQueryRepo)
+	if err != nil {
+		return nil
+	}
+
+	return uiHelper.Render(c, ContactPage(contactsList))
+}
+
+templ ContactPage(contacts []entity.Contact) {
+	<div>
+		<h1>Contacts</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Nickname</th>
+					<th>Phone</th>
+				</tr>
+			</thead>
+			<tbody>
+				for _, contact := range contacts {
+					<tr>
+						<td>{ contact.Id.String() }</td>
+						<td>{ contact.Name.String() }</td>
+						<td>{ contact.Nickname.String() }</td>
+						<td>{ contact.Phone.String() }</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+}
