@@ -13,6 +13,7 @@
         "swaggo",
         "taghs",
         "templ",
-        "Tokenise"
+        "Tokenise",
+        "Unpoly"
     ]
 }
