@@ -5,3 +5,4 @@ logs/
 TODO.md
 *.db
 *_templ.go
+*.log
