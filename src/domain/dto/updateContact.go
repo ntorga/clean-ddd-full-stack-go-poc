@@ -1,6 +1,6 @@
 package dto
 
-import "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/valueObject"
+import "github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject"
 
 type UpdateContact struct {
 	Id       valueObject.ContactId    `json:"id"`

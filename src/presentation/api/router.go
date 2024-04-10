@@ -2,13 +2,13 @@ package api
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
-	apiController "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/controller"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
+	apiController "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/api/controller"
 	echoSwagger "github.com/swaggo/echo-swagger"
 
 	_ "embed"
 
-	_ "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/docs"
+	_ "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/api/docs"
 )
 
 type Router struct {

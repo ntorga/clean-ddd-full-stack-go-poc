@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/dto"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/valueObject"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/dto"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject"
 )
 
 type ContactCmdRepo interface {

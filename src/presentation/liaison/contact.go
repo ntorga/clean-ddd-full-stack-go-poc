@@ -1,12 +1,12 @@
 package liaison
 
 import (
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/dto"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/useCase"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/valueObject"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
-	liaisonHelper "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/liaison/helper"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/dto"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/useCase"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
+	liaisonHelper "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison/helper"
 )
 
 type ContactLiaison struct {

@@ -2,8 +2,8 @@ package api
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
-	apiMiddleware "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/middleware"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
+	apiMiddleware "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/api/middleware"
 )
 
 // @title			Clean DDD TAGHS PoC Contacts

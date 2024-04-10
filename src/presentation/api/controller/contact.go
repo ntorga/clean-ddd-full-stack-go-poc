@@ -2,9 +2,9 @@ package apiController
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
-	apiHelper "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/api/helper"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/liaison"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
+	apiHelper "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/api/helper"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison"
 )
 
 type ContactController struct {

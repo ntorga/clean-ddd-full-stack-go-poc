@@ -1,9 +1,9 @@
 package cliController
 
 import (
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
-	cliHelper "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/cli/helper"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/liaison"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
+	cliHelper "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/cli/helper"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison"
 	"github.com/spf13/cobra"
 )
 

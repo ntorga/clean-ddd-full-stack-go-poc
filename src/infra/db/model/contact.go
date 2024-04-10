@@ -3,8 +3,8 @@ package dbModel
 import (
 	"time"
 
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/entity"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/valueObject"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/entity"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject"
 )
 
 type Contact struct {

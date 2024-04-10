@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	cliInit "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/cli/init"
-	cliMiddleware "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/cli/middleware"
+	cliInit "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/cli/init"
+	cliMiddleware "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/cli/middleware"
 	"github.com/spf13/cobra"
 )
 

@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/liaison"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison"
 )
 
 type formattedResponse struct {

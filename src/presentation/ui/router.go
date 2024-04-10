@@ -2,8 +2,8 @@ package ui
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/ui/presenter"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/presenter"
 )
 
 type Router struct {

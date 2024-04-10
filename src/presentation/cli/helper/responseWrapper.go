@@ -8,7 +8,7 @@ import (
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/liaison"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison"
 	"golang.org/x/term"
 )
 

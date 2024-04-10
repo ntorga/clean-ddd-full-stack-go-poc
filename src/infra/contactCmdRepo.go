@@ -1,10 +1,10 @@
 package infra
 
 import (
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/dto"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/valueObject"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
-	dbModel "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db/model"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/dto"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
+	dbModel "github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db/model"
 )
 
 type ContactCmdRepo struct {

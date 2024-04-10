@@ -1,4 +1,4 @@
-module github.com/ntorga/clean-ddd-taghs-poc-contacts
+module github.com/ntorga/clean-ddd-full-stack-go-poc
 
 go 1.22
 

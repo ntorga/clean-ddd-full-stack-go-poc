@@ -1,6 +1,6 @@
 package entity
 
-import "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/valueObject"
+import "github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject"
 
 type Contact struct {
 	Id       valueObject.ContactId   `json:"id"`

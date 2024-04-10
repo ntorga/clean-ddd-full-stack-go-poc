@@ -3,9 +3,9 @@ package cli
 import (
 	"fmt"
 
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation"
-	cliController "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/presentation/cli/controller"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation"
+	cliController "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/cli/controller"
 	"github.com/spf13/cobra"
 )
 

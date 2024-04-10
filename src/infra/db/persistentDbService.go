@@ -5,7 +5,7 @@ import (
 	"reflect"
 
 	"github.com/glebarez/sqlite"
-	dbModel "github.com/ntorga/clean-ddd-taghs-poc-contacts/src/infra/db/model"
+	dbModel "github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db/model"
 	"gorm.io/gorm"
 )
 

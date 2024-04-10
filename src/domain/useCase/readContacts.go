@@ -4,8 +4,8 @@ import (
 	"errors"
 	"log"
 
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/entity"
-	"github.com/ntorga/clean-ddd-taghs-poc-contacts/src/domain/repository"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/entity"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/repository"
 )
 
 func ReadContacts(
