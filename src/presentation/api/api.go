@@ -25,7 +25,7 @@ func ApiInit(e *echo.Echo, persistentDbSvc *db.PersistentDatabaseService) {
 
 	e.Pre(apiMiddleware.TrailingSlash(basePath))
 	e.Use(apiMiddleware.PanicHandler)
-	e.Use(apiMiddleware.SetDefaultHeaders)
+	e.Use(apiMiddleware.SetDefaultHeaders(basePath))
 	e.Use(apiMiddleware.SetDatabaseServices(persistentDbSvc))
 
 	router := NewRouter(baseRoute, persistentDbSvc)
