@@ -1,19 +1,26 @@
 {
-    "cSpell.words": [
-        "alecthomas",
-        "github",
-        "godoc",
-        "gorm",
-        "HTMX",
-        "labstack",
-        "Northon",
-        "ntorga",
-        "primarykey",
-        "sqlite",
-        "swaggo",
-        "taghs",
-        "templ",
-        "Tokenise",
-        "Unpoly"
-    ]
+  "cSpell.words": [
+    "alecthomas",
+    "github",
+    "godoc",
+    "gorm",
+    "HTMX",
+    "labstack",
+    "Northon",
+    "ntorga",
+    "primarykey",
+    "sqlite",
+    "swaggo",
+    "taghs",
+    "templ",
+    "Tokenise",
+    "Unpoly"
+  ],
+  "tailwindCSS.includeLanguages": {
+    "templ": "html"
+  },
+  "editor.formatOnSave": true,
+  "[templ]": {
+    "editor.defaultFormatter": "a-h.templ"
+  }
 }
