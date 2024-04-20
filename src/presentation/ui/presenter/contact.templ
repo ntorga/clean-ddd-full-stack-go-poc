@@ -38,7 +38,7 @@ func (presenter *ContactPresenter) Handler(c echo.Context) error {
 	return uiHelper.Render(c, ContactIndex(contactEntities), http.StatusOK)
 }
 
-script ContactIndexScript() {
+script ContactIndexLocalState() {
 	document.addEventListener('alpine:init', () => {
         Alpine.data('contactManager', () => ({
 			contact: { id: '', name: '', nickname: '', phone: '' },
@@ -58,13 +58,13 @@ script ContactIndexScript() {
 
 templ ContactIndex(contacts []entity.Contact) {
 	@uiLayout.DefaultLayout() {
-		@ContactIndexScript()
+		@ContactIndexLocalState()
 		<div class="container mx-auto" x-data="contactManager">
-			<div class="flex justify-evenly">
-				<div class="card w-1/2">
+			<div class="flex flex-col space-y-8 lg:flex-row lg:justify-evenly lg:space-y-0">
+				<div class="card w-full md:w-1/2">
 					@ContactsTable(contacts)
 				</div>
-				<div class="card w-1/3">
+				<div class="card w-full md:w-1/3">
 					@UpdateContactFormModal()
 					@CreateContactForm()
 				</div>
