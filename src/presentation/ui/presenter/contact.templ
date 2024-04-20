@@ -137,11 +137,10 @@ templ CreateContactForm() {
 		hx-indicator="#loading-overlay"
 		hx-swap="none"
 		hx-on::after-request="this.reset()"
-		hx-target-error="this"
 	>
 		@form.InputField("text", "name", "Name", templ.Attributes{"placeholder": "John Doe", "required": "true"})
 		@form.InputField("text", "nickname", "Nickname", templ.Attributes{"placeholder": "John", "required": "true"})
-		@form.InputField("phone", "phone", "Phone", templ.Attributes{"placeholder": "123-456-7890", "required": "true"})
+		@form.InputField("phone", "phone", "Phone", templ.Attributes{"placeholder": "555-12345", "required": "true"})
 		<button
 			type="submit"
 			class="mt-2 rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
