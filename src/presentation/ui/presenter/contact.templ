@@ -8,25 +8,25 @@ import (
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/helper"
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/layout"
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/component/form"
-	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/service"
 	"net/http"
 )
 
 type ContactPresenter struct {
-	contactLiaison *liaison.ContactLiaison
+	contactService *service.ContactService
 }
 
 func NewContactPresenter(
 	persistentDbSvc *db.PersistentDatabaseService,
 ) *ContactPresenter {
 	return &ContactPresenter{
-		contactLiaison: liaison.NewContactLiaison(persistentDbSvc),
+		contactService: service.NewContactService(persistentDbSvc),
 	}
 }
 
 func (presenter *ContactPresenter) Handler(c echo.Context) error {
-	responseOutput := presenter.contactLiaison.Read()
-	if responseOutput.Status != liaison.Success {
+	responseOutput := presenter.contactService.Read()
+	if responseOutput.Status != service.Success {
 		return nil
 	}
 

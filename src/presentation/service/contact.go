@@ -1,4 +1,4 @@
-package liaison
+package service
 
 import (
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/dto"
@@ -6,58 +6,58 @@ import (
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject"
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra"
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
-	liaisonHelper "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison/helper"
+	serviceHelper "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/service/helper"
 )
 
-type ContactLiaison struct {
+type ContactService struct {
 	persistentDbSvc *db.PersistentDatabaseService
 }
 
-func NewContactLiaison(
+func NewContactService(
 	persistentDbSvc *db.PersistentDatabaseService,
-) *ContactLiaison {
-	return &ContactLiaison{
+) *ContactService {
+	return &ContactService{
 		persistentDbSvc: persistentDbSvc,
 	}
 }
 
-func (liaison *ContactLiaison) Read() LiaisonOutput {
-	contactsQueryRepo := infra.NewContactQueryRepo(liaison.persistentDbSvc)
+func (service *ContactService) Read() ServiceOutput {
+	contactsQueryRepo := infra.NewContactQueryRepo(service.persistentDbSvc)
 	contactsList, err := useCase.ReadContacts(contactsQueryRepo)
 	if err != nil {
-		return NewLiaisonOutput(InfraError, err.Error())
+		return NewServiceOutput(InfraError, err.Error())
 	}
 
-	return NewLiaisonOutput(Success, contactsList)
+	return NewServiceOutput(Success, contactsList)
 }
 
-func (liaison *ContactLiaison) Create(input map[string]interface{}) LiaisonOutput {
+func (service *ContactService) Create(input map[string]interface{}) ServiceOutput {
 	requiredParams := []string{"name", "nickname", "phone"}
 
-	err := liaisonHelper.RequiredParamsInspector(input, requiredParams)
+	err := serviceHelper.RequiredParamsInspector(input, requiredParams)
 	if err != nil {
-		return NewLiaisonOutput(UserError, err.Error())
+		return NewServiceOutput(UserError, err.Error())
 	}
 
 	name, err := valueObject.NewPersonName(input["name"].(string))
 	if err != nil {
-		return NewLiaisonOutput(UserError, err.Error())
+		return NewServiceOutput(UserError, err.Error())
 	}
 
 	nickname, err := valueObject.NewNickname(input["nickname"].(string))
 	if err != nil {
-		return NewLiaisonOutput(UserError, err.Error())
+		return NewServiceOutput(UserError, err.Error())
 	}
 
 	phone, err := valueObject.NewPhoneNumber(input["phone"].(string))
 	if err != nil {
-		return NewLiaisonOutput(UserError, err.Error())
+		return NewServiceOutput(UserError, err.Error())
 	}
 
 	createContactDto := dto.NewCreateContact(name, nickname, phone)
 
-	contactQueryRepo := infra.NewContactQueryRepo(liaison.persistentDbSvc)
-	contactCmdRepo := infra.NewContactCmdRepo(liaison.persistentDbSvc)
+	contactQueryRepo := infra.NewContactQueryRepo(service.persistentDbSvc)
+	contactCmdRepo := infra.NewContactCmdRepo(service.persistentDbSvc)
 
 	err = useCase.CreateContact(
 		contactQueryRepo,
@@ -65,30 +65,30 @@ func (liaison *ContactLiaison) Create(input map[string]interface{}) LiaisonOutpu
 		createContactDto,
 	)
 	if err != nil {
-		return NewLiaisonOutput(InfraError, err.Error())
+		return NewServiceOutput(InfraError, err.Error())
 	}
 
-	return NewLiaisonOutput(Created, "ContactCreated")
+	return NewServiceOutput(Created, "ContactCreated")
 }
 
-func (liaison *ContactLiaison) Update(input map[string]interface{}) LiaisonOutput {
+func (service *ContactService) Update(input map[string]interface{}) ServiceOutput {
 	requiredParams := []string{"id"}
 
-	err := liaisonHelper.RequiredParamsInspector(input, requiredParams)
+	err := serviceHelper.RequiredParamsInspector(input, requiredParams)
 	if err != nil {
-		return NewLiaisonOutput(UserError, err.Error())
+		return NewServiceOutput(UserError, err.Error())
 	}
 
 	id, err := valueObject.NewContactId(input["id"])
 	if err != nil {
-		return NewLiaisonOutput(UserError, err.Error())
+		return NewServiceOutput(UserError, err.Error())
 	}
 
 	var namePtr *valueObject.PersonName
 	if input["name"] != nil {
 		name, err := valueObject.NewPersonName(input["name"].(string))
 		if err != nil {
-			return NewLiaisonOutput(UserError, err.Error())
+			return NewServiceOutput(UserError, err.Error())
 		}
 		namePtr = &name
 	}
@@ -97,7 +97,7 @@ func (liaison *ContactLiaison) Update(input map[string]interface{}) LiaisonOutpu
 	if input["nickname"] != nil {
 		nickname, err := valueObject.NewNickname(input["nickname"].(string))
 		if err != nil {
-			return NewLiaisonOutput(UserError, err.Error())
+			return NewServiceOutput(UserError, err.Error())
 		}
 		nickNamePtr = &nickname
 	}
@@ -106,7 +106,7 @@ func (liaison *ContactLiaison) Update(input map[string]interface{}) LiaisonOutpu
 	if input["phone"] != nil {
 		phone, err := valueObject.NewPhoneNumber(input["phone"].(string))
 		if err != nil {
-			return NewLiaisonOutput(UserError, err.Error())
+			return NewServiceOutput(UserError, err.Error())
 		}
 		phonePtr = &phone
 	}
@@ -118,8 +118,8 @@ func (liaison *ContactLiaison) Update(input map[string]interface{}) LiaisonOutpu
 		phonePtr,
 	)
 
-	contactQueryRepo := infra.NewContactQueryRepo(liaison.persistentDbSvc)
-	contactCmdRepo := infra.NewContactCmdRepo(liaison.persistentDbSvc)
+	contactQueryRepo := infra.NewContactQueryRepo(service.persistentDbSvc)
+	contactCmdRepo := infra.NewContactCmdRepo(service.persistentDbSvc)
 
 	err = useCase.UpdateContact(
 		contactQueryRepo,
@@ -127,20 +127,20 @@ func (liaison *ContactLiaison) Update(input map[string]interface{}) LiaisonOutpu
 		updateContactDto,
 	)
 	if err != nil {
-		return NewLiaisonOutput(InfraError, err.Error())
+		return NewServiceOutput(InfraError, err.Error())
 	}
 
-	return NewLiaisonOutput(Success, "ContactUpdated")
+	return NewServiceOutput(Success, "ContactUpdated")
 }
 
-func (liaison *ContactLiaison) Delete(input map[string]interface{}) LiaisonOutput {
+func (service *ContactService) Delete(input map[string]interface{}) ServiceOutput {
 	id, err := valueObject.NewContactId(input["id"])
 	if err != nil {
-		return NewLiaisonOutput(UserError, err.Error())
+		return NewServiceOutput(UserError, err.Error())
 	}
 
-	contactQueryRepo := infra.NewContactQueryRepo(liaison.persistentDbSvc)
-	contactCmdRepo := infra.NewContactCmdRepo(liaison.persistentDbSvc)
+	contactQueryRepo := infra.NewContactQueryRepo(service.persistentDbSvc)
+	contactCmdRepo := infra.NewContactCmdRepo(service.persistentDbSvc)
 
 	err = useCase.DeleteContact(
 		contactQueryRepo,
@@ -148,8 +148,8 @@ func (liaison *ContactLiaison) Delete(input map[string]interface{}) LiaisonOutpu
 		id,
 	)
 	if err != nil {
-		return NewLiaisonOutput(InfraError, err.Error())
+		return NewServiceOutput(InfraError, err.Error())
 	}
 
-	return NewLiaisonOutput(Success, "ContactDeleted")
+	return NewServiceOutput(Success, "ContactDeleted")
 }

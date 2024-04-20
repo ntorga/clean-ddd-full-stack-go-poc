@@ -4,18 +4,18 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
 	apiHelper "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/api/helper"
-	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/service"
 )
 
 type ContactController struct {
-	contactLiaison *liaison.ContactLiaison
+	contactService *service.ContactService
 }
 
 func NewContactController(
 	persistentDbSvc *db.PersistentDatabaseService,
 ) *ContactController {
 	return &ContactController{
-		contactLiaison: liaison.NewContactLiaison(persistentDbSvc),
+		contactService: service.NewContactService(persistentDbSvc),
 	}
 }
 
@@ -28,7 +28,7 @@ func NewContactController(
 // @Success      200 {array} entity.Contact
 // @Router       /v1/contact/ [get]
 func (controller *ContactController) Read(c echo.Context) error {
-	return apiHelper.ResponseWrapper(c, controller.contactLiaison.Read())
+	return apiHelper.ResponseWrapper(c, controller.contactService.Read())
 }
 
 // CreateContact	 godoc
@@ -48,7 +48,7 @@ func (controller *ContactController) Create(c echo.Context) error {
 
 	return apiHelper.ResponseWrapper(
 		c,
-		controller.contactLiaison.Create(requestBody),
+		controller.contactService.Create(requestBody),
 	)
 }
 
@@ -69,7 +69,7 @@ func (controller *ContactController) Update(c echo.Context) error {
 
 	return apiHelper.ResponseWrapper(
 		c,
-		controller.contactLiaison.Update(requestBody),
+		controller.contactService.Update(requestBody),
 	)
 }
 
@@ -89,6 +89,6 @@ func (controller *ContactController) Delete(c echo.Context) error {
 
 	return apiHelper.ResponseWrapper(
 		c,
-		controller.contactLiaison.Delete(requestBody),
+		controller.contactService.Delete(requestBody),
 	)
 }

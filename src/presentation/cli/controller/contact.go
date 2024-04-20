@@ -3,19 +3,19 @@ package cliController
 import (
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
 	cliHelper "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/cli/helper"
-	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/service"
 	"github.com/spf13/cobra"
 )
 
 type ContactController struct {
-	contactLiaison *liaison.ContactLiaison
+	contactService *service.ContactService
 }
 
 func NewContactController(
 	persistentDbSvc *db.PersistentDatabaseService,
 ) *ContactController {
 	return &ContactController{
-		contactLiaison: liaison.NewContactLiaison(persistentDbSvc),
+		contactService: service.NewContactService(persistentDbSvc),
 	}
 }
 
@@ -24,7 +24,7 @@ func (controller *ContactController) Read() *cobra.Command {
 		Use:   "read",
 		Short: "ReadContacts",
 		Run: func(cmd *cobra.Command, args []string) {
-			cliHelper.ResponseWrapper(controller.contactLiaison.Read())
+			cliHelper.ResponseWrapper(controller.contactService.Read())
 		},
 	}
 
@@ -46,7 +46,7 @@ func (controller *ContactController) Create() *cobra.Command {
 				"phone":    phoneStr,
 			}
 
-			cliHelper.ResponseWrapper(controller.contactLiaison.Create(requestBody))
+			cliHelper.ResponseWrapper(controller.contactService.Create(requestBody))
 		},
 	}
 
@@ -76,7 +76,7 @@ func (controller *ContactController) Update() *cobra.Command {
 				"phone":    phoneStr,
 			}
 
-			cliHelper.ResponseWrapper(controller.contactLiaison.Update(requestBody))
+			cliHelper.ResponseWrapper(controller.contactService.Update(requestBody))
 		},
 	}
 
@@ -99,7 +99,7 @@ func (controller *ContactController) Delete() *cobra.Command {
 				"id": idStr,
 			}
 
-			cliHelper.ResponseWrapper(controller.contactLiaison.Delete(requestBody))
+			cliHelper.ResponseWrapper(controller.contactService.Delete(requestBody))
 		},
 	}
 

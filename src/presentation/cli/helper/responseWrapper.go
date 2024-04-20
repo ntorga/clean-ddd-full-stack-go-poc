@@ -8,25 +8,25 @@ import (
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
-	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/service"
 	"golang.org/x/term"
 )
 
-func ResponseWrapper(liaisonOutput liaison.LiaisonOutput) {
+func ResponseWrapper(serviceOutput service.ServiceOutput) {
 	exitCode := 0
-	switch liaisonOutput.Status {
-	case liaison.MultiStatus:
+	switch serviceOutput.Status {
+	case service.MultiStatus:
 		exitCode = 1
-	case liaison.UserError:
+	case service.UserError:
 		exitCode = 1
-	case liaison.InfraError:
+	case service.InfraError:
 		exitCode = 1
 	}
 
 	stdoutFileDescriptor := int(os.Stdout.Fd())
 	isNonInteractiveSession := !term.IsTerminal(stdoutFileDescriptor)
 	if isNonInteractiveSession {
-		standardJsonBytes, err := json.Marshal(liaisonOutput)
+		standardJsonBytes, err := json.Marshal(serviceOutput)
 		if err != nil {
 			fmt.Println("ResponseEncodingError")
 			os.Exit(1)
@@ -36,7 +36,7 @@ func ResponseWrapper(liaisonOutput liaison.LiaisonOutput) {
 		os.Exit(exitCode)
 	}
 
-	prettyJsonBytes, err := json.MarshalIndent(liaisonOutput, "", "  ")
+	prettyJsonBytes, err := json.MarshalIndent(serviceOutput, "", "  ")
 	if err != nil {
 		fmt.Println("PrettyResponseEncodingError")
 		os.Exit(1)

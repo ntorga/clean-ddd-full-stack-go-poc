@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/service"
 )
 
 type formattedResponse struct {
@@ -14,23 +14,23 @@ type formattedResponse struct {
 
 func ResponseWrapper(
 	c echo.Context,
-	liaisonOutput liaison.LiaisonOutput,
+	serviceOutput service.ServiceOutput,
 ) error {
 	responseStatus := http.StatusOK
-	switch liaisonOutput.Status {
-	case liaison.Created:
+	switch serviceOutput.Status {
+	case service.Created:
 		responseStatus = http.StatusCreated
-	case liaison.MultiStatus:
+	case service.MultiStatus:
 		responseStatus = http.StatusMultiStatus
-	case liaison.UserError:
+	case service.UserError:
 		responseStatus = http.StatusBadRequest
-	case liaison.InfraError:
+	case service.InfraError:
 		responseStatus = http.StatusInternalServerError
 	}
 
 	formattedResponse := formattedResponse{
 		Status: responseStatus,
-		Body:   liaisonOutput.Body,
+		Body:   serviceOutput.Body,
 	}
 	return c.JSON(responseStatus, formattedResponse)
 }

@@ -1,4 +1,4 @@
-package liaisonHelper
+package serviceHelper
 
 import (
 	"errors"
