@@ -7,7 +7,9 @@ import (
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/entity"
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/helper"
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/layout"
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/component/form"
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/liaison"
+	"net/http"
 )
 
 type ContactPresenter struct {
@@ -22,34 +24,49 @@ func NewContactPresenter(
 	}
 }
 
-func (presenter *ContactPresenter) Handler(
-	c echo.Context,
-) error {
+func (presenter *ContactPresenter) Handler(c echo.Context) error {
 	responseOutput := presenter.contactLiaison.Read()
 	if responseOutput.Status != liaison.Success {
-		// TODO: Maybe return an error message?
-		return nil
-	}
-	contactEntities, assertOk := responseOutput.Body.([]entity.Contact)
-	if !assertOk {
-		// TODO: Maybe return an error message?
 		return nil
 	}
 
-	return uiHelper.Render(c, ContactIndex(contactEntities))
+	contactEntities, assertOk := responseOutput.Body.([]entity.Contact)
+	if !assertOk {
+		return nil
+	}
+
+	return uiHelper.Render(c, ContactIndex(contactEntities), http.StatusOK)
+}
+
+script ContactIndexScript() {
+	document.addEventListener('alpine:init', () => {
+        Alpine.data('contactManager', () => ({
+			contact: { id: '', name: '', nickname: '', phone: '' },
+			isUpdateModalOpen: false,
+
+			openUpdateModal(contactData) {
+				this.contact = contactData;
+				this.isUpdateModalOpen = true;
+			},
+
+			closeUpdateModal() {
+				this.isUpdateModalOpen = false;
+			},
+    	}))
+	})
 }
 
 templ ContactIndex(contacts []entity.Contact) {
 	@uiLayout.DefaultLayout() {
-		<div>
-			<div class="row" style="margin-top: 40px">
-				<div class="col-6 p-card">
-					<div class="contacts-table">
-						@ContactsTable(contacts)
-					</div>
+		@ContactIndexScript()
+		<div class="container mx-auto" x-data="contactManager">
+			<div class="flex justify-evenly">
+				<div class="card w-1/2">
+					@ContactsTable(contacts)
 				</div>
-				<div class="col-6 p-card">
-					@CreateContactForm(".contacts-table")
+				<div class="card w-1/3">
+					@UpdateContactFormModal()
+					@CreateContactForm()
 				</div>
 			</div>
 		</div>
@@ -57,54 +74,118 @@ templ ContactIndex(contacts []entity.Contact) {
 }
 
 templ ContactsTable(contacts []entity.Contact) {
-	<table>
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Nickname</th>
-				<th>Phone</th>
+	<table
+		id="contacts-table"
+		hx-get="/contact/"
+		hx-trigger="submit from:form delay:500ms, click from:button.delete-contact delay:500ms"
+		hx-select="#contacts-table"
+		hx-target="#contacts-table"
+		hx-swap="outerHTML"
+	>
+		<thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+			<tr class="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800">
+				<th scope="col" class="px-6 py-3">Id</th>
+				<th scope="col" class="px-6 py-3">Name</th>
+				<th scope="col" class="px-6 py-3">Nickname</th>
+				<th scope="col" class="px-6 py-3">Phone</th>
+				<th scope="col" class="px-6 py-3"></th>
 			</tr>
 		</thead>
 		<tbody>
 			for _, contact := range contacts {
-				<tr>
-					<td>{ contact.Id.String() }</td>
-					<td>{ contact.Name.String() }</td>
-					<td>{ contact.Nickname.String() }</td>
-					<td>{ contact.Phone.String() }</td>
+				<tr class="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800">
+					<td class="px-6 py-4">{ contact.Id.String() }</td>
+					<td class="px-6 py-4">{ contact.Name.String() }</td>
+					<td class="px-6 py-4">{ contact.Nickname.String() }</td>
+					<td class="px-6 py-4">{ contact.Phone.String() }</td>
+					<td class="inline-flex px-6 py-4">
+						<button
+							type="button"
+							@click={ "openUpdateModal(" + contact.JsonSerialize() + ")" }
+							class="me-2 inline-flex items-center rounded-full bg-blue-700 p-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+						>
+							<svg class="h-6 w-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28"></path>
+							</svg>
+						</button>
+						<button
+							hx-delete={ "/api/v1/contact/" + contact.Id.String() + "/" }
+							hx-swap="none"
+							type="button"
+							class="delete-contact me-2 inline-flex items-center rounded-full bg-red-700 p-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+						>
+							<svg class="h-6 w-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"></path>
+							</svg>
+						</button>
+					</td>
+				</tr>
+			}
+			if len(contacts) == 0 {
+				<tr class="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800">
+					<td class="px-6 py-4" colspan="5">No contacts found</td>
 				</tr>
 			}
 		</tbody>
 	</table>
 }
 
-script CreateContactFormSubmit(targetElement string) {
-	up.log.enable();
-	up.on('up:form:submit', function(event, form) {
-		if (up.Response.prototype.ok) {
-			up.util.timer(1000, function() {
-				up.render({ target: targetElement, url: '/contact/' });
-			});
-		}
-	});
+templ CreateContactForm() {
+	<h2 class="mb-4 text-2xl font-bold">Create Contact</h2>
+	<form
+		hx-post="/api/v1/contact/"
+		hx-indicator="#loading-overlay"
+		hx-swap="none"
+		hx-on::after-request="this.reset()"
+		hx-target-error="this"
+	>
+		@form.InputField("text", "name", "Name", templ.Attributes{"placeholder": "John Doe", "required": "true"})
+		@form.InputField("text", "nickname", "Nickname", templ.Attributes{"placeholder": "John", "required": "true"})
+		@form.InputField("phone", "phone", "Phone", templ.Attributes{"placeholder": "123-456-7890", "required": "true"})
+		<button
+			type="submit"
+			class="mt-2 rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+		>
+			Submit
+		</button>
+	</form>
 }
 
-templ CreateContactForm(targetElement string) {
-	@CreateContactFormSubmit(targetElement)
-	<form method="post" action="/api/v1/contact/" up-submit up-target=":none">
-		<div class="form-group">
-			<label for="name">Name</label>
-			<input type="text" class="form-control" id="name" name="name" placeholder="Enter name"/>
+templ UpdateContactFormModal() {
+	<div
+		id="update-contact-modal"
+		x-show="isUpdateModalOpen"
+		class="fixed left-0 top-0 z-50 mx-auto h-[calc(100%-1rem)] max-h-full w-full overflow-y-auto overflow-x-hidden bg-gray-900 bg-opacity-50 transition-all duration-300 ease-in-out dark:bg-gray-900 dark:bg-opacity-50"
+	>
+		<div
+			class="relative mx-auto mt-24 max-w-xl rounded-lg bg-white p-6 drop-shadow-xl dark:bg-slate-700"
+			@click.away="closeUpdateModal()"
+		>
+			<div class="mb-6 flex justify-between align-middle">
+				<h2 class="text-2xl font-bold">Update Contact</h2>
+				<button @click="closeUpdateModal()" class="text-gray-500 hover:text-gray-700 focus:outline-none dark:text-gray-400 dark:hover:text-gray-300">
+					<svg class="h-6 w-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+					</svg>
+				</button>
+			</div>
+			<form
+				hx-put="/api/v1/contact/"
+				hx-indicator="#loading-overlay"
+				hx-swap="none"
+			>
+				<input type="hidden" name="id" x-bind:value="contact.id"/>
+				@form.InputField("text", "name", "Name", templ.Attributes{"x-bind:value": "contact.name"})
+				@form.InputField("text", "nickname", "Nickname", templ.Attributes{"x-bind:value": "contact.nickname"})
+				@form.InputField("phone", "phone", "Phone", templ.Attributes{"x-bind:value": "contact.phone"})
+				<button
+					type="submit"
+					@click="closeUpdateModal()"
+					class="mt-3 rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+				>
+					Submit
+				</button>
+			</form>
 		</div>
-		<div class="form-group">
-			<label for="nickname">Nickname</label>
-			<input type="text" class="form-control" id="nickname" name="nickname" placeholder="Enter nickname"/>
-		</div>
-		<div class="form-group">
-			<label for="phone">Phone</label>
-			<input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone"/>
-		</div>
-		<button type="submit" class="btn btn-primary">Submit</button>
-	</form>
+	</div>
 }

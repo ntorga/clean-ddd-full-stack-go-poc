@@ -1,27 +1,31 @@
 package uiLayout
 
+import "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/component/util"
+
 templ DefaultLayout() {
 	<!DOCTYPE html>
-	<html>
+	<html class="dark">
 		<head>
 			<title>Contacts</title>
-			<link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-4.9.1.min.css"/>
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.css"/>
-			<script src="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.js"></script>
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css"/>
+			<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
+			<script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.11/dist/htmx.min.js" integrity="sha256-0VEHzH8ECp6DsbZhdv2SetQLXgJVgToD+Mz+7UbuQrA=" crossorigin="anonymous"></script>
+			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js" integrity="sha256-5Va7QwUhC/J6Qt62aqKNuki+mUiEAweeDKx6cP2qU7M=" crossorigin="anonymous"></script>
 		</head>
-		<body>
-			<header id="navigation" class="p-navigation--sliding is-dark">
-				<div class="p-navigation__row--25-75">
-					<div class="p-navigation__banner">
-						<div class="p-navigation__tagged-logo">
-							<a class="p-navigation__link" href="#">
-								<span class="p-navigation__logo-title">Contacts PoC</span>
-							</a>
+		<body class="bg-white text-gray-900 dark:bg-slate-800 dark:text-white">
+			@util.LoadingOverlay()
+			<header class="bg-white dark:bg-slate-900">
+				<div class="container mx-auto">
+					<nav>
+						<div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
+							<span class="text-2xl font-bold">Clean DDD Full Stack Go PoC</span>
 						</div>
-					</div>
+					</nav>
 				</div>
 			</header>
-			{ children... }
+			<div class="main mt-10">
+				{ children... }
+			</div>
 		</body>
 	</html>
 }
