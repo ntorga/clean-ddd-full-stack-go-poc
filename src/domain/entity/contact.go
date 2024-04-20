@@ -1,6 +1,10 @@
 package entity
 
-import "github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject"
+import (
+	"encoding/json"
+
+	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject"
+)
 
 type Contact struct {
 	Id       valueObject.ContactId   `json:"id"`
@@ -47,4 +51,9 @@ func (Contact) InitialEntities() []Contact {
 		firstOfficerEntity,
 		scienceOfficerEntity,
 	}
+}
+
+func (entity Contact) JsonSerialize() string {
+	jsonBytes, _ := json.Marshal(entity)
+	return string(jsonBytes)
 }
