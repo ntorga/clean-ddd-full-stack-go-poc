@@ -9,11 +9,12 @@ templ DefaultLayout() {
 			<title>Contacts</title>
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css"/>
 			<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
-			<script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.11/dist/htmx.min.js" integrity="sha256-0VEHzH8ECp6DsbZhdv2SetQLXgJVgToD+Mz+7UbuQrA=" crossorigin="anonymous"></script>
+			<script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/htmx.min.js" integrity="sha256-RJMXreeIHpSVENthSZHhlcOgmcTHkcJNrOxV+fSipFI=" crossorigin="anonymous"></script>
 			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js" integrity="sha256-5Va7QwUhC/J6Qt62aqKNuki+mUiEAweeDKx6cP2qU7M=" crossorigin="anonymous"></script>
 		</head>
 		<body class="bg-white text-gray-900 dark:bg-slate-800 dark:text-white">
 			@util.LoadingOverlay()
+			@util.Toast()
 			<header class="bg-white dark:bg-slate-900">
 				<div class="container mx-auto">
 					<nav>
