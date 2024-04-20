@@ -6,13 +6,13 @@
 
 This project builds upon the principles demonstrated in the [PHP version](https://github.com/ntorga/clean-ddd-php-poc-contacts) of our Clean Architecture and Domain-Driven Design (DDD) Proof of Concept (PoC). Before diving into this Go implementation, we recommend familiarizing yourself with the PHP version to grasp the foundational concepts that drive this project.
 
-![Architecture](./architecture.jpg)
+![Architecture](docs/architecture.jpg)
 
 ## Disclaimer
 
 This project is **NOT** intended for a production environment. It is a **proof of concept** (PoC) that does not meet traditional requirements in terms of availability nor scalability.
 
-**Not all concepts mentioned here were followed to the letter**. The idea is to comply with the [SOLID principles](https://scotch.io/bar-talk/s-o-l-i-d-the-first-five-principles-of-object-oriented-design) as much as possible, with a few exceptions to simplify the code.
+**Not all concepts mentioned here were followed to the letter**. The idea is to comply with the known design principles and patterns, but not to be dogmatic about them.
 
 ## Objective
 
@@ -22,17 +22,19 @@ The primary aim with this Go-based PoC is to demonstrate how Clean Architecture 
 - **CLI**: A command-line interface (CLI) to interact with the application;
 - **Front-end**: A server side rendered (SSR) HTML application with reactivity, but without a framework such as Next.js (React) or Nuxt.js (Vue);
 - **Hot Reload**: The browser will reload automatically when changes are made to the application thanks to `air`, `xdotool` and `tmux`.
+- **No Exceptions/Panic**: The application does not use exceptions or panic. Instead, errors are dealt with gracefully;
 
 ## Technologies
 
-- Go
-- Echo
-- Cobra
-- GORM
-- SQLite
-- Templ
-- Unpoly
-- TailwindCSS (via Flowbite)
+- [Go](https://github.com/golang/go): the programming language;
+- [Echo](https://github.com/labstack/echo): the HTTP framework used for the REST API;
+- [Cobra](https://github.com/spf13/cobra): the CLI framework;
+- [GORM](https://github.com/go-gorm/gorm): the ORM used to interact with the database;
+- [SQLite](https://github.com/sqlite/sqlite): the database;
+- [Templ](https://github.com/a-h/templ): the templating engine;
+- [HTMX](https://github.com/bigskysoftware/htmx): the library used to add AJAX to the HTML;
+- [Alpine.js](https://github.com/alpinejs/alpine): the library used to add reactivity to the HTML;
+- [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss) [(via UnoCSS)](https://github.com/unocss/unocss): the CSS framework;
 
 ## Deploy
 
@@ -49,14 +51,14 @@ chmod +x clean-ddd-full-stack-go-poc
 
 1. Install `xdotool` and `tmux`. For Ubuntu, you can install them with `sudo apt install xdotool tmux`.
 
-2. Install the `tailwindcss` [standalone CLI](https://tailwindcss.com/blog/standalone-cli), `air` and `templ`:
+2. Install `air` and `templ`:
 
 ```bash
 go install github.com/cosmtrek/air@latest
 go install github.com/a-h/templ/cmd/templ@latest
 ```
 
-The `tailwind.config.js` file is not read by the `tailwindcss` CLI. Just like the CLI itself, the config file is present just to make the VSCode Tailwind CSS extension work. The Tailwind is deployed in this application using the Flowbite jsDelivr CDN and does not need to run the watcher or build the CSS every time you make a change.
+The `tailwind.config.js` file is not used, it is present just to make the VSCode Tailwind CSS extension work. The Tailwind CSS is deployed in this application using UnoCSS (no CLI needed).
 
 3. Install the following VSCode extensions:
 
@@ -78,25 +80,27 @@ be5invis.toml
 make dev
 ```
 
+The application will be available at `http://localhost:8080`.
+
 ## Q&A
 
-**Why not use HTMX + Alpine.js?**
+**Why not use React, Vue or Svelte?**
 
-Although HTMX and Alpine.js are a great combo, I chose Unpoly because it's a bit more powerful. It has out-of-the-box support for compiler, layers, preloading, caching pages and it's easy to diff an entire HTML page.
-
-By diffing the entire page, I can return a full HTML page and Unpoly will update only the parts that have changed based on CSS selectors. This way, I don't need to create duplicated endpoints for write operations that returns HTML fragments, I can consume the REST JSON API on updates and retrieve the full HTML page after the update.
+I wanted to decrease as much as possible the usage of JavaScript to reduce the complexity of the project. HTMX and Alpine.js adds the necessary DOM manipulation tools without the need for a opinionated framework and with very little JavaScript. In fact, the only JavaScript in the project is the state management (why isn't there an official standard for that yet?) and a event listener/dispatcher inside the HTML tags.
 
 **Why not Next.js (React), Astro or Nuxt.js (Vue)?**
 
-My goal with this PoC is to keep my toolset as simple as possible. I wanted to see if I could achieve the same result without a framework. I wanted to see if I could build a server side rendered (SSR) HTML application with reactivity without a framework.
+To fully understand why, I recommend reading the article "[What it’s like to run HTMX in Production - Stories from Experienced Software Engineers](https://hamy.xyz/labs/2024-04_htmx-in-production)" to understand the benefits of using HTMX and Alpine.js.
 
-**Why not use TailwindCSS CLI to build the CSS?**
+To put it simply, I didn't want the loop of DB -> Backend Logic -> JSON -> Frontend Logic -> HTML. I wanted to go from DB -> Backend Logic -> HTML and then add reactivity with HTMX and Alpine.js. That way I can reduce the tooling and the complexity of the project.
 
-The Flowbite CSS file is 140kb in size. The CSS generated by the CLI would be 15kb. One hundred kilobytes does not justify the complexity of running the watcher to build the CSS every time you make a change and then commit to the repository. The Flowbite CSS is deployed using the jsDelivr CDN.
+**Why not use Tailwind CSS CLI to build the CSS?**
+
+I don't intent on using plugins or custom configurations for Tailwind CSS. I want just the basics and UnoCSS gives you Tailwind CSS without the need for a build process.
 
 **Why not PostgreSQL, MySQL or MongoDB?**
 
-No need for a heavy database for this PoC. SQLite is more than enough for this project. The focus is on the architecture, not the database. However, since we are using GORM, it would be easy to switch to another database if needed.
+SQLite is more than enough for a PoC. The focus is on the architecture, not the database. However, since we are using GORM, it would be easy to switch to another database if needed or you could try [Turso](https://turso.tech) with a few modifications to [GORM](https://github.com/go-gorm/sqlite/pull/185).
 
 **Why not Python, Ruby, PHP or JavaScript/TypeScript?**
 
@@ -125,6 +129,17 @@ To see the documentation, you can use any tool that supports this specification,
 When using the Swagger Online Editor, you can import the `swagger.json` file by clicking on the `File` menu and then on `Import file`.
 
 The swagger file is also available in the API itself. To see it, just access the `/api/swagger/` endpoint.
+
+## Resources
+
+- [Clean Architecture: A Craftsman's Guide to Software Structure and Design](https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164): the book by Uncle Bob;
+- [Intro to Clean Architecture & Domain Driven Design on PHP](https://ntorga.com/introduction-to-clean-architecture-and-domain-driven-design-on-php/): a series of articles that explains the concepts used in this project;
+- [Refactoring Journey of the Clean Arch PHP PoC](https://www.youtube.com/playlist?list=PLhai202gRL3f0IUmzjd7XytNBghjOpeND): a playlist that shows the refactoring of the PHP PoC after 4 years of the original implementation;
+- [Refactoring Guru](https://refactoring.guru): a site that helps you learn new design patterns;
+- [Programming & Web Development Crash Courses by Traversy Media](https://www.youtube.com/playlist?list=PLillGF-RfqbYeckUaD1z6nviTp31GLTH8): a playlist that can help you understand the basics of programming and web development, including JavaScript, Tailwind CSS, HTMX and Alpine.js;
+- [Flowbite](https://flowbite.com/), [WindiUi](https://wind-ui.com) and [PinesUi](https://devdojo.com/pines): very useful component libraries when using Tailwind CSS and Alpine.js;
+- [Flowbite Tailwind CSS Cheat Sheet](https://flowbite.com/tools/tailwind-cheat-sheet/): a cheat sheet with all Tailwind classes, you will need it;
+- [Introducing The GoTTH Stack](https://www.youtube.com/watch?v=k00jVJeZxrs) and [Coding The Next Big Web Framework](https://www.youtube.com/live/2KyZJVQFa5M): helpful videos that will explain how to use Templ, Go and HTMX together.
 
 ## Contacts
 
