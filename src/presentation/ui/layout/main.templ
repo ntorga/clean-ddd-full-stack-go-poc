@@ -2,7 +2,7 @@ package layout
 
 import "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/component/util"
 
-templ MainLayout() {
+templ MainLayout(pageContent templ.Component) {
 	<!DOCTYPE html>
 	<html class="dark">
 		<head>
@@ -14,11 +14,11 @@ templ MainLayout() {
 		</head>
 		<body class="bg-white text-gray-900 dark:bg-slate-800 dark:text-white">
 			@util.LoadingOverlay()
-			@util.Toast()
 			@Header()
 			<div class="main mt-10">
-				{ children... }
+				@pageContent
 			</div>
+			@util.Toast()
 		</body>
 	</html>
 }

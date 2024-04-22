@@ -35,5 +35,6 @@ func (presenter *ContactPresenter) Handler(c echo.Context) error {
 		return nil
 	}
 
-	return uiHelper.Render(c, page.ContactIndex(contactEntities), http.StatusOK)
+	pageContent := page.ContactIndex(contactEntities)
+	return uiHelper.Render(c, pageContent, http.StatusOK)
 }
