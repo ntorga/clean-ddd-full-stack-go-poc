@@ -1,42 +1,9 @@
-package presenter
+package page
 
 import (
-	"github.com/labstack/echo/v4"
-
-	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/infra/db"
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/entity"
-	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/helper"
-	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/layout"
 	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/component/form"
-	"github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/service"
-	"net/http"
 )
-
-type ContactPresenter struct {
-	contactService *service.ContactService
-}
-
-func NewContactPresenter(
-	persistentDbSvc *db.PersistentDatabaseService,
-) *ContactPresenter {
-	return &ContactPresenter{
-		contactService: service.NewContactService(persistentDbSvc),
-	}
-}
-
-func (presenter *ContactPresenter) Handler(c echo.Context) error {
-	responseOutput := presenter.contactService.Read()
-	if responseOutput.Status != service.Success {
-		return nil
-	}
-
-	contactEntities, assertOk := responseOutput.Body.([]entity.Contact)
-	if !assertOk {
-		return nil
-	}
-
-	return uiHelper.Render(c, ContactIndex(contactEntities), http.StatusOK)
-}
 
 script ContactIndexLocalState() {
 	document.addEventListener('alpine:init', () => {
@@ -57,20 +24,18 @@ script ContactIndexLocalState() {
 }
 
 templ ContactIndex(contacts []entity.Contact) {
-	@uiLayout.DefaultLayout() {
-		@ContactIndexLocalState()
-		<div class="container mx-auto" x-data="contactManager">
-			<div class="flex flex-col space-y-8 lg:flex-row lg:justify-evenly lg:space-y-0">
-				<div class="card w-full md:w-1/2">
-					@ContactsTable(contacts)
-				</div>
-				<div class="card w-full md:w-1/3">
-					@UpdateContactFormModal()
-					@CreateContactForm()
-				</div>
+	@ContactIndexLocalState()
+	<div class="container mx-auto" x-data="contactManager">
+		<div class="flex flex-col space-y-8 lg:flex-row lg:justify-evenly lg:space-y-0">
+			<div class="card w-full md:w-1/2">
+				@ContactsTable(contacts)
+			</div>
+			<div class="card w-full md:w-1/3">
+				@UpdateContactFormModal()
+				@CreateContactForm()
 			</div>
 		</div>
-	}
+	</div>
 }
 
 templ ContactsTable(contacts []entity.Contact) {
