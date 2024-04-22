@@ -41,7 +41,7 @@ templ ContactIndex(contacts []entity.Contact) {
 templ ContactsTable(contacts []entity.Contact) {
 	<table
 		id="contacts-table"
-		hx-get="/contact/"
+		hx-get="/"
 		hx-trigger="submit from:form delay:500ms, click from:button.delete-contact delay:500ms"
 		hx-select="#contacts-table"
 		hx-target="#contacts-table"

@@ -22,10 +22,11 @@ func NewRouter(
 }
 
 func (router *Router) contactRoutes() {
-	contactGroup := router.baseRoute.Group("/contact")
+	// Ideally, this feature would be implemented in a separate group, such as:
+	// contactGroup := router.baseRoute.Group("/contact")
 
 	contactPresenter := presenter.NewContactPresenter(router.persistentDbSvc)
-	contactGroup.GET("/", contactPresenter.Handler)
+	router.baseRoute.GET("/", contactPresenter.Handler)
 }
 
 func (router *Router) RegisterRoutes() {
