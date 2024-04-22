@@ -45,7 +45,8 @@ templ ContactsTable(contacts []entity.Contact) {
 		hx-trigger="submit from:form delay:500ms, click from:button.delete-contact delay:500ms"
 		hx-select="#contacts-table"
 		hx-target="#contacts-table"
-		hx-swap="outerHTML"
+		hx-swap="outerHTML transition:true"
+		class="w-full table-auto border-collapse transition-all duration-300 ease-in-out"
 	>
 		<thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
 			<tr class="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800">
