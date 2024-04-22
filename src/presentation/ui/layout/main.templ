@@ -1,4 +1,4 @@
-package uiLayout
+package layout
 
 import "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/component/util"
 
@@ -15,15 +15,7 @@ templ MainLayout() {
 		<body class="bg-white text-gray-900 dark:bg-slate-800 dark:text-white">
 			@util.LoadingOverlay()
 			@util.Toast()
-			<header class="bg-white dark:bg-slate-900">
-				<div class="container mx-auto">
-					<nav>
-						<div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
-							<span class="text-2xl font-bold">Clean DDD Full Stack Go PoC</span>
-						</div>
-					</nav>
-				</div>
-			</header>
+			@Header()
 			<div class="main mt-10">
 				{ children... }
 			</div>
