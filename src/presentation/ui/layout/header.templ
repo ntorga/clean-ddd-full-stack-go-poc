@@ -1,13 +1,16 @@
 package layout
 
+import "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/ui/component/util"
+
 templ Header() {
 	<header class="bg-gray-300 dark:bg-slate-900">
-		<div class="container mx-auto">
-			<nav>
-				<div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
-					<span class="text-2xl font-bold">Clean DDD Full Stack Go PoC</span>
-				</div>
+		<div class="container mx-auto flex content-center justify-between">
+			<nav class="flex content-center p-4">
+				<span class="pt-1 text-2xl font-bold">Clean DDD Full Stack Go PoC</span>
 			</nav>
+			<div class="p-4">
+				@util.DarkModeToggle()
+			</div>
 		</div>
 	</header>
 }
