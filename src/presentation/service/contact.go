@@ -39,17 +39,17 @@ func (service *ContactService) Create(input map[string]interface{}) ServiceOutpu
 		return NewServiceOutput(UserError, err.Error())
 	}
 
-	name, err := valueObject.NewPersonName(input["name"].(string))
+	name, err := valueObject.NewPersonName(input["name"])
 	if err != nil {
 		return NewServiceOutput(UserError, err.Error())
 	}
 
-	nickname, err := valueObject.NewNickname(input["nickname"].(string))
+	nickname, err := valueObject.NewNickname(input["nickname"])
 	if err != nil {
 		return NewServiceOutput(UserError, err.Error())
 	}
 
-	phone, err := valueObject.NewPhoneNumber(input["phone"].(string))
+	phone, err := valueObject.NewPhoneNumber(input["phone"])
 	if err != nil {
 		return NewServiceOutput(UserError, err.Error())
 	}
@@ -85,8 +85,8 @@ func (service *ContactService) Update(input map[string]interface{}) ServiceOutpu
 	}
 
 	var namePtr *valueObject.PersonName
-	if input["name"] != nil {
-		name, err := valueObject.NewPersonName(input["name"].(string))
+	if _, exists := input["name"]; exists {
+		name, err := valueObject.NewPersonName(input["name"])
 		if err != nil {
 			return NewServiceOutput(UserError, err.Error())
 		}
@@ -94,8 +94,8 @@ func (service *ContactService) Update(input map[string]interface{}) ServiceOutpu
 	}
 
 	var nickNamePtr *valueObject.Nickname
-	if input["nickname"] != nil {
-		nickname, err := valueObject.NewNickname(input["nickname"].(string))
+	if _, exists := input["nickname"]; exists {
+		nickname, err := valueObject.NewNickname(input["nickname"])
 		if err != nil {
 			return NewServiceOutput(UserError, err.Error())
 		}
@@ -103,8 +103,8 @@ func (service *ContactService) Update(input map[string]interface{}) ServiceOutpu
 	}
 
 	var phonePtr *valueObject.PhoneNumber
-	if input["phone"] != nil {
-		phone, err := valueObject.NewPhoneNumber(input["phone"].(string))
+	if _, exists := input["phone"]; exists {
+		phone, err := valueObject.NewPhoneNumber(input["phone"])
 		if err != nil {
 			return NewServiceOutput(UserError, err.Error())
 		}

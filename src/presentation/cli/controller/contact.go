@@ -21,7 +21,7 @@ func NewContactController(
 
 func (controller *ContactController) Read() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "read",
+		Use:   "get",
 		Short: "ReadContacts",
 		Run: func(cmd *cobra.Command, args []string) {
 			cliHelper.ResponseWrapper(controller.contactService.Read())
@@ -70,10 +70,19 @@ func (controller *ContactController) Update() *cobra.Command {
 		Short: "UpdateContact",
 		Run: func(cmd *cobra.Command, args []string) {
 			requestBody := map[string]interface{}{
-				"id":       idStr,
-				"name":     nameStr,
-				"nickname": nicknameStr,
-				"phone":    phoneStr,
+				"id": idStr,
+			}
+
+			if nameStr != "" {
+				requestBody["name"] = nameStr
+			}
+
+			if nicknameStr != "" {
+				requestBody["nickname"] = nicknameStr
+			}
+
+			if phoneStr != "" {
+				requestBody["phone"] = phoneStr
 			}
 
 			cliHelper.ResponseWrapper(controller.contactService.Update(requestBody))
