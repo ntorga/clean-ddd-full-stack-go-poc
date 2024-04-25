@@ -47,8 +47,7 @@ func (controller *ContactController) Create(c echo.Context) error {
 	}
 
 	return apiHelper.ResponseWrapper(
-		c,
-		controller.contactService.Create(requestBody),
+		c, controller.contactService.Create(requestBody),
 	)
 }
 
@@ -68,8 +67,7 @@ func (controller *ContactController) Update(c echo.Context) error {
 	}
 
 	return apiHelper.ResponseWrapper(
-		c,
-		controller.contactService.Update(requestBody),
+		c, controller.contactService.Update(requestBody),
 	)
 }
 
@@ -88,7 +86,6 @@ func (controller *ContactController) Delete(c echo.Context) error {
 	}
 
 	return apiHelper.ResponseWrapper(
-		c,
-		controller.contactService.Delete(requestBody),
+		c, controller.contactService.Delete(requestBody),
 	)
 }
