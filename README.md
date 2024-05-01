@@ -38,14 +38,18 @@ The primary aim with this Go-based PoC is to demonstrate how Clean Architecture 
 
 ## Deploy
 
-The binary file is available for Linux amd64. You can download it from the [releases page](https://github.com/ntorga/clean-ddd-full-stack-go-poc/releases).
+The binary files are available for download on the [releases page](https://github.com/ntorga/clean-ddd-full-stack-go-poc/releases).
 
 To run the application, you just need to execute the binary file. The application will be available at `http://localhost:8080`.
 
+For instance on Linux:
+
 ```bash
-chmod +x clean-ddd-full-stack-go-poc
-./clean-ddd-full-stack-go-poc
+chmod +x poc-linux-amd64
+./poc-linux-amd64 serve
 ```
+
+Although the binary files are available, only the linux/amd64 version is tested. If you face any issues with the compiled binaries, please report on the [issues page](https://github.com/ntorga/clean-ddd-full-stack-go-poc/issues).
 
 ## Development
 
@@ -80,7 +84,7 @@ be5invis.toml
 make dev
 ```
 
-The application will be available at `http://localhost:8080`.
+The application will be available at `http://localhost:8080` and will hot reload your browser active tab if changes are made to `.templ` files on the last 60 seconds.
 
 ## Q&A
 
@@ -102,9 +106,11 @@ I don't intent on using plugins or custom configurations for Tailwind CSS. I wan
 
 SQLite is more than enough for a PoC. The focus is on the architecture, not the database. However, since we are using GORM, it would be easy to switch to another database if needed or you could try [Turso](https://turso.tech) with a few modifications to [GORM](https://github.com/go-gorm/sqlite/pull/185).
 
-**Why not Python, Ruby, PHP or JavaScript/TypeScript?**
+**Why not Rust, Python, Ruby, PHP or JavaScript/TypeScript?**
 
-I think Go has a great developer experience, it's fast, has a great standard library and it's easy to deploy. With Go, the entire project is a single binary. No need for a runtime or a virtual environment. REST API, CLI and HTML with a single command.
+Go has a great standard library and it's easy to learn. The deployment is very simple, just a single binary. The performance is great and the language is very stable. No need for a runtime or a virtual environment. The entire project is a single binary. REST API, CLI and HTML with a single command.
+
+However, why don't you try to implement this PoC in another language? It would be a great learning experience for sure. (:
 
 ## Documentation
 
