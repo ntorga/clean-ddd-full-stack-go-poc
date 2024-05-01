@@ -8,7 +8,7 @@ import (
 	voHelper "github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject/helper"
 )
 
-const nicknameRegex string = `^[\p{L}_-]{2,100}$`
+const nicknameRegex string = `^[\p{L}\d][\p{L}\d_-]{1,100}$`
 
 type Nickname string
 
@@ -19,6 +19,7 @@ func NewNickname(value interface{}) (Nickname, error) {
 	}
 
 	stringValue = strings.TrimSpace(stringValue)
+	stringValue = strings.ToLower(stringValue)
 
 	re := regexp.MustCompile(nicknameRegex)
 	isValid := re.MatchString(stringValue)
