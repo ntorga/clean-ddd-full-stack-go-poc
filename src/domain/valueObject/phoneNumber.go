@@ -8,8 +8,7 @@ import (
 	voHelper "github.com/ntorga/clean-ddd-full-stack-go-poc/src/domain/valueObject/helper"
 )
 
-// valid formats: (123) 1234-1234 | 123 1234-1234 | 1231234-1234 | 12312341234
-const phoneNumberRegex string = `^\(?\d{1,3}\)? ?\d{1,5}-?\d{1,5}$`
+const phoneNumberRegex string = `^\(?\d{1,9}\)?[ \-\.]?\d{1,9}[ \-\.]?\d{1,9}$`
 
 type PhoneNumber string
 
