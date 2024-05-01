@@ -2,6 +2,7 @@ package db
 
 import (
 	"errors"
+	"os"
 	"reflect"
 
 	"github.com/glebarez/sqlite"
@@ -9,9 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const (
-	DatabaseFilePath = "app.db"
-)
+var DatabaseFilePath = os.TempDir() + "/app.db"
 
 type PersistentDatabaseService struct {
 	Handler *gorm.DB
