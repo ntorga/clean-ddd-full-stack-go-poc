@@ -6,7 +6,7 @@ import (
 	apiMiddleware "github.com/ntorga/clean-ddd-full-stack-go-poc/src/presentation/api/middleware"
 )
 
-// @title			Clean DDD TAGHS PoC Contacts
+// @title			Clean DDD Full Stack Go PoC API
 // @version			0.0.1
 // @description		Clean Architecture & DDD with Go, Tailwind, Alpine.js, HTMX, and SQLite: A Proof of Concept
 

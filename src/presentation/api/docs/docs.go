@@ -205,7 +205,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/api",
 	Schemes:          []string{},
-	Title:            "Clean DDD TAGHS PoC Contacts",
+	Title:            "Clean DDD Full Stack Go PoC API",
 	Description:      "Clean Architecture & DDD with Go, Tailwind, Alpine.js, HTMX, and SQLite: A Proof of Concept",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

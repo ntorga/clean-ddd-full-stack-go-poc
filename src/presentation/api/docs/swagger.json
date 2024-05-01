@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "Clean Architecture \u0026 DDD with Go, Tailwind, Alpine.js, HTMX, and SQLite: A Proof of Concept",
-        "title": "Clean DDD TAGHS PoC Contacts",
+        "title": "Clean DDD Full Stack Go PoC API",
         "contact": {
             "name": "Northon Torga",
             "url": "https://ntorga.com/",

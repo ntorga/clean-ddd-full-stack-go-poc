@@ -42,7 +42,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  title: Clean DDD TAGHS PoC Contacts
+  title: Clean DDD Full Stack Go PoC API
   version: 0.0.1
 paths:
   /v1/contact/:
