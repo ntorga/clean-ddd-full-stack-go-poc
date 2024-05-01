@@ -5,7 +5,7 @@ dev:
 	air serve
 
 refresh:
-	tmux new-session -d -s hot-reload-go "sleep 1; xdotool search --onlyvisible --name 'chrome|firefox|opera' windowactivate --sync key F5"
+	@bash -c 'if find $(UI_DIR) -type f -name "*.templ" -mmin -1 2>/dev/null | grep -q "."; then tmux new-session -d -s hot-reload-go "sleep 1; xdotool search --onlyvisible --name \"chrome|firefox|opera\" windowactivate --sync key F5"; fi'
 
 build:
 	templ generate -path $(UI_DIR)
