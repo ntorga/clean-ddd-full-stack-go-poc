@@ -21,6 +21,9 @@ for platform in "${platforms[@]}"; do
         echo "An error has occurred! Aborting the script execution..."
         exit 1
     fi
+
+    zip -j "${distPath}/${binaryName}.zip" "${distPath}/${binaryName}"
+    rm -f "${distPath}/${binaryName}"
 done
 
 echo "Building completed!"
